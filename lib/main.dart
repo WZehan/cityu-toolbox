@@ -474,9 +474,10 @@ class ToolGrid extends StatelessWidget {
     builder: (context, c) {
       final columns = c.maxWidth >= 760
           ? 3
-          : c.maxWidth >= 500
+          : c.maxWidth >= 320
           ? 2
           : 1;
+      final compact = c.maxWidth < 500;
       return Wrap(
         spacing: 16,
         runSpacing: 16,
@@ -501,7 +502,7 @@ class ToolGrid extends StatelessWidget {
                       }
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(23),
+                      padding: EdgeInsets.all(compact ? 14 : 23),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -528,8 +529,8 @@ class ToolGrid extends StatelessWidget {
                           const SizedBox(height: 22),
                           Text(
                             t.title,
-                            style: const TextStyle(
-                              fontSize: 19,
+                            style: TextStyle(
+                              fontSize: compact ? 16 : 19,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -541,6 +542,7 @@ class ToolGrid extends StatelessWidget {
                           const SizedBox(height: 13),
                           Text(
                             t.detail,
+                            maxLines: 2,
                             style: const TextStyle(color: muted, fontSize: 12),
                           ),
                           const SizedBox(height: 22),

@@ -26,9 +26,11 @@ flutter build web --release --no-web-resources-cdn
 
 ## 部署
 
-- 生产域名：https://cityu-toolbox.wangzehan.com
+- 计划生产域名：https://cityu-toolbox.wangzehan.com （已在 Pages 绑定；首次配置仍需添加下述 DNS）
 - Cloudflare Pages：https://cityu-toolbox.pages.dev
 - GitHub Actions 在 push / PR 时执行分析、测试和 Web 构建，并提供构建产物。
 - 已登录 Wrangler 后执行 `./scripts/deploy.sh` 发布到 Pages。当前采用本地构建直接上传；GitHub 工作流不自动发布。
 
 本项目为学生便民工具，并非香港城市大学官方应用。
+
+首次域名配置：在 Cloudflare 的 `wangzehan.com` 区域添加 CNAME，名称 `cityu-toolbox`，目标 `cityu-toolbox.pages.dev`，开启代理（TTL 自动）。等待 Pages 自定义域名状态变为 Active 并签发 HTTPS 证书。

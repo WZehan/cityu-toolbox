@@ -33,6 +33,51 @@ void main() {
     expect(text, contains('Medium of Instruction: No'));
     expect(text, contains('Total number of testimonial(s) required: 2'));
   });
+  testWidgets('Complete form previews all values and optional information', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(const CityUToolbox());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('学在城大').first);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('开始填写'));
+    await tester.tap(find.text('开始填写'));
+    await tester.pumpAndSettle();
+    final values = [
+      'Test Student',
+      '12345678',
+      '+852 1234 5678',
+      'P1234567',
+      'MSc Test',
+      'Test Department',
+      '2',
+      'test@example.com',
+    ];
+    for (var i = 0; i < values.length; i++) {
+      await tester.ensureVisible(find.byType(TextFormField).at(i));
+      await tester.enterText(find.byType(TextFormField).at(i), values[i]);
+    }
+    tester.testTextInput.hide();
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byType(CheckboxListTile).last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(CheckboxListTile).last);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('预览并复制资料'));
+    await tester.tap(find.text('预览并复制资料'));
+    await tester.pumpAndSettle();
+    expect(find.text('预填资料预览'), findsOneWidget);
+    expect(find.textContaining('Medium of Instruction: Yes'), findsOneWidget);
+    expect(
+      find.textContaining('Email Address: test@example.com'),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+  });
   for (final width in [390.0, 1200.0]) {
     testWidgets('Home filters and form navigation at width $width', (
       tester,
