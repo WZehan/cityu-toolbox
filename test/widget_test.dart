@@ -88,11 +88,30 @@ void main() {
       addTearDown(tester.view.resetDevicePixelRatio);
       await tester.pumpWidget(const CityUToolbox());
       await tester.pumpAndSettle();
-      expect(find.text('AC1 线上点餐'), findsOneWidget);
+      expect(find.text('AC1 城大食坊'), findsOneWidget);
+      final ac1 = tester.getTopLeft(find.text('AC1 城大食坊'));
+      final ac2 = tester.getTopLeft(find.text('AC2 Canteen'));
+      if (width == 390) {
+        expect(ac2.dx, ac1.dx);
+        expect(ac2.dy, greaterThan(ac1.dy));
+      } else {
+        expect(ac2.dx, greaterThan(ac1.dx));
+      }
+      expect(find.textContaining('周日及公众假期休息'), findsOneWidget);
+      await tester.ensureVisible(find.text('将应用添加至桌面'));
+      await tester.tap(find.text('将应用添加至桌面'));
+      await tester.pumpAndSettle();
+      expect(find.text('iPhone / iPad · Safari'), findsOneWidget);
+      expect(find.text('选择「添加到主屏幕」'), findsOneWidget);
+      expect(find.text('确认名称，点击「添加」'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('学在城大').first);
       expect(tester.takeException(), isNull);
       await tester.tap(find.text('学在城大').first);
       await tester.pumpAndSettle();
-      expect(find.text('AC1 线上点餐'), findsNothing);
+      expect(find.text('AC1 城大食坊'), findsNothing);
       await tester.ensureVisible(find.text('开始填写'));
       await tester.tap(find.text('开始填写'));
       await tester.pumpAndSettle();

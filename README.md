@@ -4,7 +4,8 @@
 
 - 食在城大：AC1 / AC2 / AC3 线上点餐，点击后在外部浏览器（Web 新标签页）打开。
 - 学在城大：应用内在读证明预填表，包含 8 个基本字段及联系地址、授课语言两个可选项，支持输入校验、费用参考、英文预览和复制。
-- 自适应手机、平板和桌面；分类筛选及搜索；使用提供的工具箱图标。
+- 自适应手机、平板和桌面；手机单列卡片显示食堂名称、位置、营业时间；分类筛选及搜索；使用提供的工具箱图标。
+- 应用内添加桌面指引：三步 Safari 图文教程，截图可放大，并说明其他手机浏览器的操作入口。
 - 表单不上传、不持久化个人资料。资料只在当前页面内存中保留；本工具不提交申请或签发证明。
 
 ## 开发
@@ -26,11 +27,11 @@ flutter build web --release --no-web-resources-cdn
 
 ## 部署
 
-- 计划生产域名：https://cityu-toolbox.wangzehan.com （已在 Pages 绑定；首次配置仍需添加下述 DNS）
+- 生产域名：https://cityu-toolbox.wangzehan.com （已验证 HTTPS 可访问）
 - Cloudflare Pages：https://cityu-toolbox.pages.dev
 - GitHub Actions 在 push / PR 时执行分析、测试和 Web 构建，并提供构建产物。
 - 已登录 Wrangler 后执行 `./scripts/deploy.sh` 发布到 Pages。当前采用本地构建直接上传；GitHub 工作流不自动发布。
 
 本项目为学生便民工具，并非香港城市大学官方应用。
 
-首次域名配置：在 Cloudflare 的 `wangzehan.com` 区域添加 CNAME，名称 `cityu-toolbox`，目标 `cityu-toolbox.pages.dev`，开启代理（TTL 自动）。等待 Pages 自定义域名状态变为 Active 并签发 HTTPS 证书。
+域名配置：在 Cloudflare 的 `wangzehan.com` 区域添加 CNAME，名称 `cityu-toolbox`，目标 `cityu-toolbox.pages.dev`，开启代理（TTL 自动）。等待 Pages 自定义域名状态变为 Active 并签发 HTTPS 证书。

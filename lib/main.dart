@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'install_guide.dart';
 
 const accent = Color(0xFFC71555);
 const ink = Color(0xFF202635);
@@ -49,6 +50,7 @@ class CityUToolbox extends StatelessWidget {
     routes: {
       '/': (_) => const HomePage(),
       '/testimonial': (_) => const TestimonialPage(),
+      '/install': (_) => const InstallGuidePage(),
     },
   );
 }
@@ -71,27 +73,27 @@ class CampusTool {
 
 const dining = [
   CampusTool(
-    'AC1 线上点餐',
-    'Academic 1',
-    '提前选好，轻松开饭。',
+    'AC1 城大食坊',
+    'City Express',
+    '位置：中银（香港）综合楼 5 楼\n营业时间：周一至周日 07:30–21:00',
     '线上点餐',
     Icons.ramen_dining_rounded,
     Color(0xFFCE7134),
     'https://csd.order.place/home/store/112870',
   ),
   CampusTool(
-    'AC2 线上点餐',
-    'Academic 2',
-    '课间补给，一键直达。',
+    'AC2 Canteen',
+    '李达三叶耀珍学术楼',
+    '位置：李达三叶耀珍学术楼 3 楼\n营业时间：周一至周日 07:30–21:00',
     '线上点餐',
     Icons.rice_bowl_rounded,
     Color(0xFF558266),
     'https://csd.order.place/home/store/612882',
   ),
   CampusTool(
-    'AC3 线上点餐',
-    'Academic 3',
-    '今天的好味道，从这里开始。',
+    'AC3 Bistro',
+    '刘鸣炜学术楼',
+    '位置：刘鸣炜学术楼 7 楼\n营业时间：周一至周六 07:30–21:00\n周日及公众假期休息',
     '线上点餐',
     Icons.restaurant_rounded,
     Color(0xFF657FC0),
@@ -142,7 +144,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int category = 0;
   String query = '';
-  bool matches(CampusTool t) => '${t.title} ${t.english} ${t.tag}'
+  bool matches(CampusTool t) => '${t.title} ${t.english} ${t.detail} ${t.tag}'
       .toLowerCase()
       .contains(query.trim().toLowerCase());
   @override
@@ -361,32 +363,25 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               const SizedBox(height: 32),
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEDF0F5),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.open_in_new,
-                                      size: 17,
-                                      color: muted,
+                              Material(
+                                color: const Color(0xFFEDF0F5),
+                                borderRadius: BorderRadius.circular(12),
+                                clipBehavior: Clip.antiAlias,
+                                child: ListTile(
+                                  leading: const Icon(
+                                    Icons.add_to_home_screen_rounded,
+                                    color: accent,
+                                  ),
+                                  title: const Text(
+                                    '将应用添加至桌面',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
                                     ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: Text(
-                                        '点餐将在浏览器中打开；在读证明可直接在工具箱内预填写。',
-                                        style: TextStyle(
-                                          color: muted,
-                                          height: 1.5,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                  subtitle: const Text('跟着图文指引，把城大百宝箱放到手机主屏幕。'),
+                                  trailing: const Icon(Icons.chevron_right),
+                                  onTap: () =>
+                                      Navigator.pushNamed(context, '/install'),
                                 ),
                               ),
                               const SizedBox(height: 32),
@@ -474,7 +469,7 @@ class ToolGrid extends StatelessWidget {
     builder: (context, c) {
       final columns = c.maxWidth >= 760
           ? 3
-          : c.maxWidth >= 320
+          : c.maxWidth >= 560
           ? 2
           : 1;
       final compact = c.maxWidth < 500;
@@ -542,8 +537,11 @@ class ToolGrid extends StatelessWidget {
                           const SizedBox(height: 13),
                           Text(
                             t.detail,
-                            maxLines: 2,
-                            style: const TextStyle(color: muted, fontSize: 12),
+                            style: const TextStyle(
+                              color: muted,
+                              fontSize: 13,
+                              height: 1.8,
+                            ),
                           ),
                           const SizedBox(height: 22),
                           Row(
