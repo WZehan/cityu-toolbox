@@ -18,6 +18,7 @@ flutter run -d chrome
 flutter analyze
 flutter test
 flutter build web --release --no-web-resources-cdn
+python3 scripts/prepare_web.py
 ```
 
 已生成 Web、iOS、Android、macOS、Windows、Linux 平台工程。仅构建和验证 Web；原生平台尚未构建或真机验证。
