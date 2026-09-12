@@ -7,6 +7,7 @@ import 'install_guide.dart';
 const accent = Color(0xFFC71555);
 const ink = Color(0xFF202635);
 const muted = Color(0xFF737989);
+const appBuildVersion = '1.0.1(2)';
 
 void main() => runApp(const CityUToolbox());
 
@@ -79,7 +80,7 @@ const dining = [
     '线上点餐',
     Icons.ramen_dining_rounded,
     Color(0xFFCE7134),
-    'https://csd.order.place/home/store/112870',
+    'https://csd.order.place/home/store/112870?mode=prekiosk',
   ),
   CampusTool(
     'AC2 Canteen',
@@ -387,7 +388,7 @@ class _HomePageState extends State<HomePage> {
                               const SizedBox(height: 32),
                               const Center(
                                 child: Text(
-                                  '城大百宝箱 · CityU Toolbox\n学生便民工具 · 非香港城市大学官方应用',
+                                  '城大百宝箱 · CityU Toolbox\n构建版本：$appBuildVersion\n学生便民工具 · 非香港城市大学官方应用',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: muted,

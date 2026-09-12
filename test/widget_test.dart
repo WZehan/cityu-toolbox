@@ -33,6 +33,13 @@ void main() {
     expect(text, contains('Medium of Instruction: No'));
     expect(text, contains('Total number of testimonial(s) required: 2'));
   });
+  test('Uses AC1 pre-kiosk URL and exposes the build version', () {
+    expect(
+      dining.first.url,
+      'https://csd.order.place/home/store/112870?mode=prekiosk',
+    );
+    expect(appBuildVersion, '1.0.1(2)');
+  });
   testWidgets('Complete form previews all values and optional information', (
     tester,
   ) async {
@@ -89,6 +96,7 @@ void main() {
       await tester.pumpWidget(const CityUToolbox());
       await tester.pumpAndSettle();
       expect(find.text('AC1 城大食坊'), findsOneWidget);
+      expect(find.textContaining('构建版本：1.0.1(2)'), findsOneWidget);
       final ac1 = tester.getTopLeft(find.text('AC1 城大食坊'));
       final ac2 = tester.getTopLeft(find.text('AC2 Canteen'));
       if (width == 390) {
