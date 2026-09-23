@@ -5,26 +5,26 @@ const _onlineStalls = <_Ac2Stall>[
   _Ac2Stall(
     name: '四季茶坊',
     english: 'Tea House',
-    logo: 'assets/images/ac2/tea_house.png',
+    logo: 'assets/images/ac2/tea_house_transparent.png',
     orderUrl: 'https://csd.order.place/home/store/612882',
   ),
   _Ac2Stall(
     name: 'Euro Gourmet',
     english: 'AC2 CANTEEN',
-    logo: 'assets/images/ac2/euro_gourmet.png',
+    logo: 'assets/images/ac2/euro_gourmet_transparent.png',
     orderUrl: 'https://csd.order.place/home/store/712882?_aigens_source=scan',
   ),
   _Ac2Stall(
     name: '西北麵館',
     english: 'XiBei Mian Guan',
-    logo: 'assets/images/ac2/xibei_noodle.png',
+    logo: 'assets/images/ac2/xibei_noodle_transparent.png',
     orderUrl:
         'https://csd.order.place/home/store/312882?_aigens_source=scan&catMode=false&mode=dinein',
   ),
   _Ac2Stall(
     name: '餃餃陣',
     english: 'Dumpling City Express',
-    logo: 'assets/images/ac2/dumpling_city_express.png',
+    logo: 'assets/images/ac2/dumpling_city_express_transparent.png',
     orderUrl: 'https://csd.order.place/home/store/212882?_aigens_source=scan',
   ),
 ];
@@ -32,19 +32,19 @@ const _onlineStalls = <_Ac2Stall>[
 const _offlineStalls = <_Ac2Stall>[
   _Ac2Stall(
     name: '麻辣滾燙',
-    logo: 'assets/images/ac2/mala_rolling.png',
+    logo: 'assets/images/ac2/mala_rolling_transparent.png',
     steps: ['挑选菜 Select Food', '按重量付款 Pay by Weight', '叫号取餐 Food Pick-up'],
   ),
   _Ac2Stall(
     name: '拾味',
     english: 'The Pick',
-    logo: 'assets/images/ac2/the_pick.png',
+    logo: 'assets/images/ac2/the_pick_transparent.png',
     steps: ['排队 Queue Up', '选菜 Select Food', '付款 Settle the Bill'],
   ),
   _Ac2Stall(
     name: '開味小店',
     english: 'Tasty Corner',
-    logo: 'assets/images/ac2/kai_wei_shop.png',
+    logo: 'assets/images/ac2/kai_wei_shop_transparent.png',
     steps: ['点餐 Place Order', '付款 Settle the Bill', '取餐 Food Pick-up'],
   ),
 ];
@@ -157,21 +157,24 @@ class _StallCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  stall.logo,
-                  width: 148,
-                  height: 62,
-                  fit: BoxFit.contain,
-                  errorBuilder: (_, _, _) => const SizedBox(
-                    width: 148,
-                    height: 62,
-                    child: Icon(Icons.restaurant_rounded),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Image.asset(
+                    stall.logo,
+                    width: 172,
+                    height: 86,
+                    fit: BoxFit.contain,
+                    alignment: Alignment.centerLeft,
+                    errorBuilder: (_, _, _) => const SizedBox(
+                      width: 172,
+                      height: 86,
+                      child: Icon(Icons.restaurant_rounded),
+                    ),
                   ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               _StatusPill(online: stall.orderUrl != null),
             ],
           ),
