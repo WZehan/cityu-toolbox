@@ -82,7 +82,9 @@ class Ac2CanteenPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      '支持线上点餐的窗口排在前面，点击按钮将在浏览器打开点餐页面。',
+                      '线上点餐：四季茶坊、Euro Gourmet、西北麵館、餃餃陣\n'
+                      '现场点餐：麻辣滾燙、拾味、開味小店\n'
+                      '线上点餐按钮将在浏览器打开点餐页面。',
                       style: TextStyle(color: Color(0xFF737989), height: 1.6),
                     ),
                     const SizedBox(height: 24),

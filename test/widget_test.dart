@@ -59,6 +59,14 @@ void main() {
     await tester.ensureVisible(find.text('AC2 Canteen'));
     await tester.tap(find.text('AC2 Canteen'));
     await tester.pumpAndSettle();
+    expect(
+      find.text(
+        '线上点餐：四季茶坊、Euro Gourmet、西北麵館、餃餃陣\n'
+        '现场点餐：麻辣滾燙、拾味、開味小店\n'
+        '线上点餐按钮将在浏览器打开点餐页面。',
+      ),
+      findsOneWidget,
+    );
     expect(find.byType(FilledButton), findsNWidgets(4));
     expect(find.text('仅限现场'), findsNWidgets(3));
     expect(find.text('四季茶坊'), findsOneWidget);
