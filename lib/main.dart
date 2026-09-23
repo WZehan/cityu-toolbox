@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'ac2_canteen_page.dart';
 import 'install_guide.dart';
+import 'library_resources_page.dart';
+import 'link_launcher.dart';
 
 const accent = Color(0xFFC71555);
 const ink = Color(0xFF202635);
 const muted = Color(0xFF737989);
-const appBuildVersion = '1.0.1(2)';
+const appBuildVersion = '1.0.2(3)';
 
 void main() => runApp(const CityUToolbox());
 
@@ -52,6 +54,8 @@ class CityUToolbox extends StatelessWidget {
       '/': (_) => const HomePage(),
       '/testimonial': (_) => const TestimonialPage(),
       '/install': (_) => const InstallGuidePage(),
+      '/ac2': (_) => const Ac2CanteenPage(),
+      '/library': (_) => const LibraryResourcesPage(),
     },
   );
 }
@@ -61,6 +65,8 @@ class CampusTool {
   final IconData icon;
   final Color color;
   final String? url;
+  final String? route;
+  final String actionLabel;
   const CampusTool(
     this.title,
     this.english,
@@ -69,6 +75,8 @@ class CampusTool {
     this.icon,
     this.color, [
     this.url,
+    this.route,
+    this.actionLabel = '打开链接',
   ]);
 }
 
@@ -84,12 +92,14 @@ const dining = [
   ),
   CampusTool(
     'AC2 Canteen',
-    '李达三叶耀珍学术楼',
-    '位置：李达三叶耀珍学术楼 3 楼\n营业时间：周一至周日 07:30–21:00',
-    '线上点餐',
+    '七个餐饮窗口',
+    '位置：李达三叶耀珍学术楼 3 楼\n营业时间：周一至周日 07:30–21:00\n四个窗口支持线上点餐',
+    '窗口菜单',
     Icons.rice_bowl_rounded,
     Color(0xFF558266),
-    'https://csd.order.place/home/store/612882',
+    null,
+    '/ac2',
+    '查看窗口',
   ),
   CampusTool(
     'AC3 Bistro',
@@ -108,33 +118,43 @@ const testimonial = CampusTool(
   '表单工具',
   Icons.description_outlined,
   accent,
+  null,
+  '/testimonial',
+  '开始填写',
 );
 
-Future<void> openExternal(BuildContext context, String url) async {
-  try {
-    final opened = await launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.externalApplication,
-      webOnlyWindowName: '_blank',
-    );
-    if (!opened) throw StateError('Unable to open URL');
-  } catch (_) {
-    if (!context.mounted) return;
-    showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('暂时无法打开链接'),
-        content: SelectableText('请复制链接，在浏览器中打开：\n$url'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('关闭'),
-          ),
-        ],
-      ),
-    );
-  }
-}
+const studyTools = [
+  CampusTool(
+    '图书馆资源',
+    'Library Resources',
+    '搜索馆藏、申请八校通、浏览学术资源与往年试题。',
+    '4 项资源',
+    Icons.local_library_outlined,
+    Color(0xFF7563A8),
+    null,
+    '/library',
+    '打开资源',
+  ),
+  CampusTool(
+    '图书馆座位预约',
+    'Library Seat Booking',
+    '在线查看并预约图书馆座位。',
+    '预约服务',
+    Icons.event_seat_outlined,
+    Color(0xFF398B88),
+    'https://booking.cityu.edu.hk/app/booking-types',
+  ),
+  CampusTool(
+    '运动中心场馆预约',
+    'Sports Facilities Booking',
+    '预约城大运动中心的场地与设施。',
+    '预约服务',
+    Icons.sports_basketball_outlined,
+    Color(0xFF4D76AE),
+    'https://sportsbooking.cityu.edu.hk/',
+  ),
+  testimonial,
+];
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -151,7 +171,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final food = dining.where(matches).toList();
-    final study = matches(testimonial);
+    final study = studyTools.where(matches).toList();
+    final hasVisibleTools =
+        (category != 2 && food.isNotEmpty) ||
+        (category != 1 && study.isNotEmpty);
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
@@ -273,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                                             spacing: 10,
                                             runSpacing: 8,
                                             children: [
-                                              HeroTag('4 个实用工具'),
+                                              HeroTag('7 个常用入口'),
                                               HeroTag('为 CityU 同学而做'),
                                             ],
                                           ),
@@ -344,16 +367,15 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 ToolGrid(tools: food),
                               ],
-                              if (category != 1 && study) ...[
+                              if (category != 1 && study.isNotEmpty) ...[
                                 const SectionTitle(
                                   '学在城大',
                                   '把琐事理好，把时间留给学习。',
                                   Icons.auto_stories_outlined,
                                 ),
-                                const ToolGrid(tools: [testimonial]),
+                                ToolGrid(tools: study),
                               ],
-                              if ((category == 2 || food.isEmpty) &&
-                                  (category == 1 || !study))
+                              if (!hasVisibleTools)
                                 const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 60),
                                   child: Center(
@@ -491,10 +513,10 @@ class ToolGrid extends StatelessWidget {
                   clipBehavior: Clip.antiAlias,
                   child: InkWell(
                     onTap: () {
-                      if (t.url != null) {
-                        openExternal(context, t.url!);
-                      } else {
-                        Navigator.pushNamed(context, '/testimonial');
+                      if (t.route != null) {
+                        Navigator.pushNamed(context, t.route!);
+                      } else if (t.url != null) {
+                        openExternalLink(context, t.url!);
                       }
                     },
                     child: Padding(
@@ -548,7 +570,7 @@ class ToolGrid extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                t.url != null ? '前往点餐' : '开始填写',
+                                t.actionLabel,
                                 style: TextStyle(
                                   color: t.color,
                                   fontWeight: FontWeight.w600,

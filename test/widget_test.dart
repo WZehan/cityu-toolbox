@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cityu_toolbox/main.dart';
+import 'package:cityu_toolbox/library_resources_page.dart';
 
 void main() {
   test('Validates required values, email and positive copy count', () {
@@ -38,7 +39,63 @@ void main() {
       dining.first.url,
       'https://csd.order.place/home/store/112870?mode=prekiosk',
     );
-    expect(appBuildVersion, '1.0.1(2)');
+    expect(appBuildVersion, '1.0.2(3)');
+  });
+  test('LibraryFind adds an encoded keyword to the supplied search URL', () {
+    expect(
+      libraryFindSearchUrl('machine learning'),
+      '${libraryFindBaseUrl}machine%20learning',
+    );
+  });
+  testWidgets('AC2 shows all online stalls before the on-site stalls', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(const CityUToolbox());
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('AC2 Canteen'));
+    await tester.tap(find.text('AC2 Canteen'));
+    await tester.pumpAndSettle();
+    expect(find.byType(FilledButton), findsNWidgets(4));
+    expect(find.text('仅限现场'), findsNWidgets(3));
+    expect(find.text('四季茶坊'), findsOneWidget);
+    expect(find.text('Euro Gourmet'), findsOneWidget);
+    expect(find.text('西北麵館'), findsOneWidget);
+    expect(find.text('餃餃陣'), findsOneWidget);
+    expect(find.text('麻辣滾燙'), findsOneWidget);
+    expect(find.text('拾味'), findsOneWidget);
+    expect(find.text('開味小店'), findsOneWidget);
+    expect(
+      tester.getTopLeft(find.text('餃餃陣')).dy,
+      lessThan(tester.getTopLeft(find.text('麻辣滾燙')).dy),
+    );
+    expect(find.text('排队 Queue Up'), findsOneWidget);
+    expect(find.text('付款 Settle the Bill'), findsNWidgets(2));
+    expect(tester.takeException(), isNull);
+  });
+  testWidgets('Library card opens a page with search and resource links', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(const CityUToolbox());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('学在城大').first);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('图书馆资源'));
+    await tester.tap(find.text('图书馆资源'));
+    await tester.pumpAndSettle();
+    expect(find.text('搜索馆藏'), findsNWidgets(2));
+    expect(find.byType(TextField), findsOneWidget);
+    expect(find.text('八校通申请'), findsOneWidget);
+    expect(find.text('学术资源'), findsOneWidget);
+    expect(find.text('往年考试试题下载'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
   testWidgets('Complete form previews all values and optional information', (
     tester,
@@ -96,7 +153,7 @@ void main() {
       await tester.pumpWidget(const CityUToolbox());
       await tester.pumpAndSettle();
       expect(find.text('AC1 城大食坊'), findsOneWidget);
-      expect(find.textContaining('构建版本：1.0.1(2)'), findsOneWidget);
+      expect(find.textContaining('构建版本：1.0.2(3)'), findsOneWidget);
       final ac1 = tester.getTopLeft(find.text('AC1 城大食坊'));
       final ac2 = tester.getTopLeft(find.text('AC2 Canteen'));
       if (width == 390) {
