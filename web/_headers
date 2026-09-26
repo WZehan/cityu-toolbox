@@ -11,3 +11,5 @@
   Cache-Control: no-cache
 /flutter_service_worker.js
   Cache-Control: no-cache
+/assets/FontManifest.json
+  Cache-Control: no-cache
