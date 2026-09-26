@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cityu_toolbox/main.dart';
+import 'package:cityu_toolbox/app_info.dart';
+import 'package:cityu_toolbox/campus_tools.dart';
+import 'package:cityu_toolbox/home_page.dart';
+import 'package:cityu_toolbox/install_guide.dart';
 import 'package:cityu_toolbox/library_resources_page.dart';
+import 'package:cityu_toolbox/main.dart';
+import 'package:cityu_toolbox/testimonial_page.dart';
+import 'package:cityu_toolbox/theme.dart';
+
+void setViewWidth(WidgetTester tester, double width) {
+  tester.view.physicalSize = Size(width, 1000);
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+}
+
+Future<void> openTool(WidgetTester tester, String title) async {
+  await tester.ensureVisible(find.text(title));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text(title));
+  await tester.pumpAndSettle();
+}
 
 void main() {
   test('Validates required values, email and positive copy count', () {
@@ -14,6 +34,7 @@ void main() {
     expect(validateField(7, 'student@my.cityu.edu.hk'), isNull);
     expect(validateField(2, '+852 1234 5678'), isNull);
   });
+
   test('Summary includes all fields and independent optional flags', () {
     final text = buildSummary(
       [
@@ -34,48 +55,47 @@ void main() {
     expect(text, contains('Medium of Instruction: No'));
     expect(text, contains('Total number of testimonial(s) required: 2'));
   });
+
   test('Uses AC1 pre-kiosk URL and exposes the build version', () {
     expect(
-      dining.first.url,
+      diningTools.first.url,
       'https://csd.order.place/home/store/112870?mode=prekiosk',
     );
-    expect(appBuildVersion, '1.0.2(3)');
+    expect(appBuildVersion, '1.0.3(4)');
   });
+
+  test('Tool search matches hidden English keywords and info lines', () {
+    expect(studyTools.first.matches('library'), isTrue);
+    expect(diningTools.last.matches('公众假期'), isTrue);
+    expect(diningTools.first.matches('library'), isFalse);
+  });
+
   test('LibraryFind adds an encoded keyword to the supplied search URL', () {
     expect(
       libraryFindSearchUrl('machine learning'),
       '${libraryFindBaseUrl}machine%20learning',
     );
   });
+
   testWidgets('AC2 shows all online stalls before the on-site stalls', (
     tester,
   ) async {
-    tester.view.physicalSize = const Size(390, 1000);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+    setViewWidth(tester, 390);
     await tester.pumpWidget(const CityUToolbox());
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('AC2 Canteen'));
-    await tester.tap(find.text('AC2 Canteen'));
-    await tester.pumpAndSettle();
-    expect(
-      find.text(
-        '线上点餐：四季茶坊、Euro Gourmet、西北麵館、餃餃陣\n'
-        '现场点餐：麻辣滾燙、拾味、開味小店\n'
-        '线上点餐按钮将在浏览器打开点餐页面。',
-      ),
-      findsOneWidget,
-    );
-    expect(find.byType(FilledButton), findsNWidgets(4));
-    expect(find.text('仅限现场'), findsNWidgets(3));
-    expect(find.text('四季茶坊'), findsOneWidget);
-    expect(find.text('Euro Gourmet'), findsOneWidget);
-    expect(find.text('西北麵館'), findsOneWidget);
-    expect(find.text('餃餃陣'), findsOneWidget);
-    expect(find.text('麻辣滾燙'), findsOneWidget);
-    expect(find.text('拾味'), findsOneWidget);
-    expect(find.text('開味小店'), findsOneWidget);
+    await openTool(tester, 'AC2 Canteen');
+    expect(find.text('去点餐'), findsNWidgets(4));
+    for (final name in [
+      '四季茶坊',
+      'Euro Gourmet',
+      '西北麵館',
+      '餃餃陣',
+      '麻辣滾燙',
+      '拾味',
+      '開味小店',
+    ]) {
+      expect(find.text(name), findsOneWidget);
+    }
     expect(
       tester.getTopLeft(find.text('餃餃陣')).dy,
       lessThan(tester.getTopLeft(find.text('麻辣滾燙')).dy),
@@ -84,41 +104,31 @@ void main() {
     expect(find.text('付款 Settle the Bill'), findsNWidgets(2));
     expect(tester.takeException(), isNull);
   });
+
   testWidgets('Library card opens a page with search and resource links', (
     tester,
   ) async {
-    tester.view.physicalSize = const Size(390, 1000);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+    setViewWidth(tester, 390);
     await tester.pumpWidget(const CityUToolbox());
     await tester.pumpAndSettle();
     await tester.tap(find.text('学在城大').first);
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('图书馆资源'));
-    await tester.tap(find.text('图书馆资源'));
-    await tester.pumpAndSettle();
-    expect(find.text('搜索馆藏'), findsNWidgets(2));
+    await openTool(tester, '图书馆资源');
+    expect(find.text('搜索馆藏'), findsOneWidget);
     expect(find.byType(TextField), findsOneWidget);
     expect(find.text('八校通申请'), findsOneWidget);
     expect(find.text('学术资源'), findsOneWidget);
     expect(find.text('往年考试试题下载'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+
   testWidgets('Complete form previews all values and optional information', (
     tester,
   ) async {
-    tester.view.physicalSize = const Size(390, 1000);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+    setViewWidth(tester, 390);
     await tester.pumpWidget(const CityUToolbox());
     await tester.pumpAndSettle();
-    await tester.tap(find.text('学在城大').first);
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('开始填写'));
-    await tester.tap(find.text('开始填写'));
-    await tester.pumpAndSettle();
+    await openTool(tester, '在读证明预填表');
     final values = [
       'Test Student',
       '12345678',
@@ -135,6 +145,7 @@ void main() {
     }
     tester.testTextInput.hide();
     await tester.pumpAndSettle();
+    expect(find.text('预计 HK\$120'), findsOneWidget);
     await tester.ensureVisible(find.byType(CheckboxListTile).last);
     await tester.pumpAndSettle();
     await tester.tap(find.byType(CheckboxListTile).last);
@@ -150,18 +161,48 @@ void main() {
     );
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('Install guide is reachable from the home page on web', (
+    tester,
+  ) async {
+    setViewWidth(tester, 390);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: buildAppTheme(Brightness.light),
+        routes: {
+          '/': (_) => const HomePage(showInstallGuide: true),
+          '/install': (_) => const InstallGuidePage(),
+        },
+      ),
+    );
+    await tester.pumpAndSettle();
+    await openTool(tester, '添加到主屏幕');
+    expect(find.text('iPhone / iPad · Safari'), findsOneWidget);
+    expect(find.text('选择「添加到主屏幕」'), findsOneWidget);
+    expect(find.text('确认名称，点击「添加」'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Renders in dark mode without layout errors', (tester) async {
+    setViewWidth(tester, 390);
+    tester.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
+    addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+    await tester.pumpWidget(const CityUToolbox());
+    await tester.pumpAndSettle();
+    expect(find.text('AC1 城大食坊'), findsOneWidget);
+    await openTool(tester, 'AC2 Canteen');
+    expect(tester.takeException(), isNull);
+  });
+
   for (final width in [390.0, 1200.0]) {
-    testWidgets('Home filters and form navigation at width $width', (
+    testWidgets('Home layout, search and filters at width $width', (
       tester,
     ) async {
-      tester.view.physicalSize = Size(width, 1000);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.resetPhysicalSize);
-      addTearDown(tester.view.resetDevicePixelRatio);
+      setViewWidth(tester, width);
       await tester.pumpWidget(const CityUToolbox());
       await tester.pumpAndSettle();
       expect(find.text('AC1 城大食坊'), findsOneWidget);
-      expect(find.textContaining('构建版本：1.0.2(3)'), findsOneWidget);
+      expect(find.textContaining('构建版本 1.0.3(4)'), findsOneWidget);
       final ac1 = tester.getTopLeft(find.text('AC1 城大食坊'));
       final ac2 = tester.getTopLeft(find.text('AC2 Canteen'));
       if (width == 390) {
@@ -169,25 +210,27 @@ void main() {
         expect(ac2.dy, greaterThan(ac1.dy));
       } else {
         expect(ac2.dx, greaterThan(ac1.dx));
+        expect(ac2.dy, ac1.dy);
       }
-      expect(find.textContaining('周日及公众假期休息'), findsOneWidget);
-      await tester.ensureVisible(find.text('将应用添加至桌面'));
-      await tester.tap(find.text('将应用添加至桌面'));
+      expect(find.text('周日及公众假期休息'), findsOneWidget);
+      // Promotional copy has been removed.
+      expect(find.text('YOUR CAMPUS COMPANION'), findsNothing);
+
+      await tester.enterText(find.byType(TextField), 'library');
       await tester.pumpAndSettle();
-      expect(find.text('iPhone / iPad · Safari'), findsOneWidget);
-      expect(find.text('选择「添加到主屏幕」'), findsOneWidget);
-      expect(find.text('确认名称，点击「添加」'), findsOneWidget);
-      expect(tester.takeException(), isNull);
-      await tester.tap(find.byType(BackButton));
+      expect(find.text('AC1 城大食坊'), findsNothing);
+      expect(find.text('图书馆资源'), findsOneWidget);
+      await tester.enterText(find.byType(TextField), 'zzz');
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text('学在城大').first);
-      expect(tester.takeException(), isNull);
+      expect(find.text('没有找到相关工具'), findsOneWidget);
+      await tester.tap(find.byTooltip('清除'));
+      await tester.pumpAndSettle();
+      expect(find.text('AC1 城大食坊'), findsOneWidget);
+
       await tester.tap(find.text('学在城大').first);
       await tester.pumpAndSettle();
       expect(find.text('AC1 城大食坊'), findsNothing);
-      await tester.ensureVisible(find.text('开始填写'));
-      await tester.tap(find.text('开始填写'));
-      await tester.pumpAndSettle();
+      await openTool(tester, '在读证明预填表');
       expect(find.text('Student Name'), findsOneWidget);
       await tester.ensureVisible(find.text('预览并复制资料'));
       await tester.tap(find.text('预览并复制资料'));

@@ -1,13 +1,15 @@
 # 城大百宝箱 · CityU Toolbox
 
-面向香港城市大学同学的 Flutter 校园便民工具，使用分类宫格集合校园服务。
+面向香港城市大学同学的 Flutter 校园便民工具，界面遵循 Material 3 设计（支持浅色 / 深色模式）。
 
-- 食在城大：AC1 / AC2 / AC3 线上点餐，点击后在外部浏览器（Web 新标签页）打开。
-- 当前构建版本：1.0.1(2)。AC1 使用预点餐入口 `https://csd.order.place/home/store/112870?mode=prekiosk`。
-- 学在城大：应用内在读证明预填表，包含 8 个基本字段及联系地址、授课语言两个可选项，支持输入校验、费用参考、英文预览和复制。
-- 自适应手机、平板和桌面；手机单列卡片显示食堂名称、位置、营业时间；分类筛选及搜索；使用提供的工具箱图标。
-- 应用内添加桌面指引：三步 Safari 图文教程，截图可放大，并说明其他手机浏览器的操作入口。
-- 表单不上传、不持久化个人资料。资料只在当前页面内存中保留；本工具不提交申请或签发证明。
+- 当前构建版本：1.0.3(4)。
+- 首页：搜索栏 + 分类切换（全部 / 食在城大 / 学在城大），工具以卡片网格展示，手机单列、平板及桌面多列。
+- 食在城大：AC1 / AC3 线上点餐（外部浏览器 / Web 新标签页打开），AC2 七个窗口分「线上点餐」「现场点餐」展示。AC1 使用预点餐入口 `https://csd.order.place/home/store/112870?mode=prekiosk`。
+- 学在城大：图书馆资源（馆藏搜索、八校通、学术资源、往年试题）、座位预约、运动场馆预约、在读证明预填表（输入校验、费用参考、英文预览和复制）。
+- 添加到主屏幕指引：仅在 Web 版首页显示，三步 Safari 图文教程，截图可放大。
+- 表单不上传、不持久化个人资料；本工具不提交申请或签发证明。
+
+代码结构：`lib/main.dart`（应用入口与路由）、`lib/theme.dart`（Material 3 主题）、`lib/campus_tools.dart`（工具数据）、`lib/home_page.dart`、`lib/testimonial_page.dart`、`lib/ac2_canteen_page.dart`、`lib/library_resources_page.dart`、`lib/install_guide.dart`、`lib/common_widgets.dart`（页面布局组件）。版本号见 `lib/app_info.dart` 与 `pubspec.yaml`。
 
 ## 开发
 
@@ -25,7 +27,7 @@ python3 scripts/prepare_web.py
 已生成 Web、iOS、Android、macOS、Windows、Linux 平台工程。仅构建和验证 Web；原生平台尚未构建或真机验证。
 
 图标原图：`assets/images/toolbox.png`。重新生成：`dart run flutter_launcher_icons`。
-功能数据及界面入口：`lib/main.dart`。资料依据用户于 2026-09-10 提供的功能文档；HK$60/份为文档参考费用，实际以学校最新规定为准。
+功能数据：`lib/campus_tools.dart`。资料依据用户于 2026-09-10 提供的功能文档；HK$60/份为文档参考费用，实际以学校最新规定为准。
 
 ## 部署
 

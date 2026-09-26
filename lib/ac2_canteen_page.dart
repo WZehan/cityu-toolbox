@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'common_widgets.dart';
 import 'link_launcher.dart';
 
 const _onlineStalls = <_Ac2Stall>[
@@ -54,221 +56,145 @@ class Ac2CanteenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('AC2 窗口点餐')),
-    body: SafeArea(
-      top: false,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final wide = constraints.maxWidth >= 760;
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(wide ? 32 : 20),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1120),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'AC2 Canteen',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      '李达三叶耀珍学术楼 3 楼 · 周一至周日 07:30–21:00',
-                      style: TextStyle(color: Color(0xFF737989), height: 1.6),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      '线上点餐：四季茶坊、Euro Gourmet、西北麵館、餃餃陣\n'
-                      '现场点餐：麻辣滾燙、拾味、開味小店\n'
-                      '线上点餐按钮将在浏览器打开点餐页面。',
-                      style: TextStyle(color: Color(0xFF737989), height: 1.6),
-                    ),
-                    const SizedBox(height: 24),
-                    _StallGrid(stalls: _onlineStalls, wide: wide),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 32, bottom: 8),
-                      child: Text(
-                        '现场点餐',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ),
-                    const Text(
-                      '以下窗口目前没有线上点餐链接，请按窗口展示的步骤现场点餐。',
-                      style: TextStyle(color: Color(0xFF737989), height: 1.6),
-                    ),
-                    const SizedBox(height: 16),
-                    _StallGrid(stalls: _offlineStalls, wide: wide),
-                    const SizedBox(height: 28),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+    appBar: AppBar(title: const Text('AC2 Canteen')),
+    body: PageScroll(
+      children: [
+        const InfoLine(Icons.place_outlined, '李达三叶耀珍学术楼 3 楼'),
+        const SizedBox(height: 8),
+        const InfoLine(Icons.schedule_outlined, '周一至周日 07:30–21:00'),
+        const SectionHeader('线上点餐'),
+        ResponsiveGrid(
+          minItemWidth: 160,
+          maxColumns: 4,
+          children: [for (final s in _onlineStalls) _StallCard(stall: s)],
+        ),
+        const SectionHeader('现场点餐'),
+        ResponsiveGrid(
+          minItemWidth: 160,
+          maxColumns: 4,
+          children: [for (final s in _offlineStalls) _StallCard(stall: s)],
+        ),
+      ],
     ),
-  );
-}
-
-class _StallGrid extends StatelessWidget {
-  const _StallGrid({required this.stalls, required this.wide});
-  final List<_Ac2Stall> stalls;
-  final bool wide;
-
-  @override
-  Widget build(BuildContext context) => Wrap(
-    spacing: 14,
-    runSpacing: 14,
-    children: stalls
-        .map(
-          (stall) => SizedBox(
-            width: wide ? 350 : double.infinity,
-            child: _StallCard(stall: stall),
-          ),
-        )
-        .toList(),
   );
 }
 
 class _StallCard extends StatelessWidget {
   const _StallCard({required this.stall});
+
   final _Ac2Stall stall;
 
   @override
-  Widget build(BuildContext context) => Card(
-    margin: EdgeInsets.zero,
-    elevation: 0,
-    clipBehavior: Clip.antiAlias,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(18),
-      side: const BorderSide(color: Color(0xFFE6E8EE)),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(16),
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Card(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Image.asset(
-                    stall.logo,
-                    width: 172,
-                    height: 86,
-                    fit: BoxFit.contain,
-                    alignment: Alignment.centerLeft,
-                    errorBuilder: (_, _, _) => const SizedBox(
-                      width: 172,
-                      height: 86,
-                      child: Icon(Icons.restaurant_rounded),
+          // Logos are dark artwork on transparent backgrounds, so keep them on
+          // a white plate in both light and dark themes.
+          Container(
+            height: 88,
+            color: Colors.white,
+            padding: const EdgeInsets.all(12),
+            child: Image.asset(
+              stall.logo,
+              fit: BoxFit.contain,
+              errorBuilder: (_, _, _) =>
+                  const Icon(Icons.storefront_outlined, color: Colors.black45),
+            ),
+          ),
+          const Divider(height: 1),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  stall.name,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                if (stall.english case final english?)
+                  Text(
+                    english,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: switch (stall.orderUrl) {
+              final url? => FilledButton.tonal(
+                onPressed: () => openExternalLink(context, url),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.open_in_new, size: 18),
+                    SizedBox(width: 8),
+                    Text('去点餐'),
+                  ],
+                ),
+              ),
+              null => _Steps(stall.steps),
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Steps extends StatelessWidget {
+  const _Steps(this.steps);
+
+  final List<String> steps;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (var i = 0; i < steps.length; i++)
+          Padding(
+            padding: EdgeInsets.only(top: i == 0 ? 0 : 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: scheme.secondaryContainer,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    '${i + 1}',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: scheme.onSecondaryContainer,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              _StatusPill(online: stall.orderUrl != null),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Text(
-            stall.name,
-            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 3),
-          if (stall.english case final english?) ...[
-            Text(
-              english,
-              style: const TextStyle(fontSize: 12, color: Color(0xFF737989)),
-            ),
-            const SizedBox(height: 16),
-          ] else
-            const SizedBox(height: 12),
-          if (stall.orderUrl case final url?)
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: () => openExternalLink(context, url),
-                icon: const Icon(Icons.open_in_new_rounded, size: 18),
-                label: const Text('前往线上点餐'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFFC71555),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(steps[i], style: theme.textTheme.bodySmall),
                 ),
-              ),
-            )
-          else ...[
-            const Text(
-              '用餐流程',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-            ),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 6,
-              runSpacing: 8,
-              children: [
-                for (var i = 0; i < stall.steps.length; i++) ...[
-                  _StepPill(stall.steps[i]),
-                  if (i != stall.steps.length - 1)
-                    const Icon(
-                      Icons.chevron_right_rounded,
-                      color: Color(0xFF9AA1AD),
-                      size: 17,
-                    ),
-                ],
               ],
             ),
-          ],
-        ],
-      ),
-    ),
-  );
-}
-
-class _StatusPill extends StatelessWidget {
-  const _StatusPill({required this.online});
-  final bool online;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      color: online ? const Color(0xFFEAF5EF) : const Color(0xFFF1F2F5),
-      borderRadius: BorderRadius.circular(20),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
-      child: Text(
-        online ? '线上点餐' : '仅限现场',
-        style: TextStyle(
-          color: online ? const Color(0xFF347753) : const Color(0xFF737989),
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
-  );
-}
-
-class _StepPill extends StatelessWidget {
-  const _StepPill(this.label);
-  final String label;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
-    decoration: BoxDecoration(
-      color: const Color(0xFFF4F5F7),
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Text(label, style: const TextStyle(fontSize: 10, height: 1.2)),
-  );
+          ),
+      ],
+    );
+  }
 }
 
 class _Ac2Stall {

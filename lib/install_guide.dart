@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'app_info.dart';
+import 'common_widgets.dart';
+
+typedef InstallStep = ({String title, String detail, String image});
 
 class InstallGuidePage extends StatelessWidget {
   const InstallGuidePage({super.key});
 
-  static const steps = [
+  static const List<InstallStep> steps = [
     (
       title: '打开网站，点击分享',
-      detail: '使用 Safari 打开城大百宝箱首页，点击浏览器下方的分享按钮。',
+      detail: '使用 Safari 打开城大百宝箱，点击浏览器下方的分享按钮。',
       image: 'assets/images/install/step-1.png',
     ),
     (
@@ -16,181 +22,151 @@ class InstallGuidePage extends StatelessWidget {
     ),
     (
       title: '确认名称，点击「添加」',
-      detail: '将名称设为「城大百宝箱」，点击右上角「添加」。之后就能从桌面图标直接打开。',
+      detail: '确认名称后点击右上角「添加」，之后即可从桌面图标直接打开。',
       image: 'assets/images/install/step-3.png',
     ),
   ];
 
+  Future<void> _copyUrl(BuildContext context) async {
+    await Clipboard.setData(ClipboardData(text: siteUrl));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('已复制网址')));
+  }
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text(
-        '将应用添加至桌面',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-      ),
-    ),
-    body: SafeArea(
-      child: SingleChildScrollView(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1040),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.add_to_home_screen_rounded,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 36,
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    '校园工具，随手打开。',
-                    style: TextStyle(fontSize: 27, fontWeight: FontWeight.w800),
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    '把城大百宝箱添加到手机主屏幕，下次轻点图标即可访问。',
-                    style: TextStyle(height: 1.7),
-                  ),
-                  const SizedBox(height: 16),
-                  const SelectableText(
-                    'https://cityu-toolbox.wangzehan.com',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  const SizedBox(height: 28),
-                  const Text(
-                    'iPhone / iPad · Safari',
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text('以下为 iPhone Safari 操作示例，点击截图可放大查看。'),
-                  const SizedBox(height: 20),
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      final columns = constraints.maxWidth >= 800 ? 3 : 1;
-                      final width =
-                          (constraints.maxWidth - (columns - 1) * 20) / columns;
-                      return Wrap(
-                        spacing: 20,
-                        runSpacing: 20,
-                        children: List.generate(steps.length, (i) {
-                          final step = steps[i];
-                          return SizedBox(
-                            width: width,
-                            child: Card(
-                              elevation: 0,
-                              margin: EdgeInsets.zero,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 16,
-                                      child: Text('${i + 1}'),
-                                    ),
-                                    const SizedBox(height: 14),
-                                    Text(
-                                      step.title,
-                                      style: const TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      step.detail,
-                                      style: const TextStyle(height: 1.7),
-                                    ),
-                                    const SizedBox(height: 18),
-                                    Center(
-                                      child: ConstrainedBox(
-                                        constraints: const BoxConstraints(
-                                          maxWidth: 300,
-                                        ),
-                                        child: Semantics(
-                                          button: true,
-                                          label:
-                                              '放大第 ${i + 1} 步截图：${step.title}',
-                                          child: InkWell(
-                                            onTap: () => showDialog<void>(
-                                              context: context,
-                                              builder: (ctx) => Dialog.fullscreen(
-                                                child: SafeArea(
-                                                  child: Column(
-                                                    children: [
-                                                      Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: IconButton(
-                                                          tooltip: '关闭截图',
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                ctx,
-                                                              ),
-                                                          icon: const Icon(
-                                                            Icons.close,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: InteractiveViewer(
-                                                          minScale: 1,
-                                                          maxScale: 4,
-                                                          child: Center(
-                                                            child: Image.asset(
-                                                              step.image,
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              child: Image.asset(
-                                                step.image,
-                                                semanticLabel: step.title,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 28),
-                  const Text(
-                    '其他手机浏览器',
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    '使用手机原生浏览器打开上方网址，在分享或浏览器菜单中查找「添加到桌面」「添加到主屏幕」等选项，并按提示确认。不同浏览器的菜单位置和名称可能不同。',
-                    style: TextStyle(height: 1.8),
-                  ),
-                  const SizedBox(height: 24),
-                ],
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final muted = theme.colorScheme.onSurfaceVariant;
+    return Scaffold(
+      appBar: AppBar(title: const Text('添加到主屏幕')),
+      body: PageScroll(
+        children: [
+          Text(
+            '在手机浏览器中打开以下网址，添加到主屏幕后即可从桌面直接打开。',
+            style: theme.textTheme.bodyLarge?.copyWith(color: muted),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.link),
+              title: const SelectableText(siteUrl),
+              trailing: IconButton(
+                tooltip: '复制网址',
+                icon: const Icon(Icons.content_copy_outlined),
+                onPressed: () => _copyUrl(context),
               ),
             ),
           ),
+          const SectionHeader('iPhone / iPad · Safari'),
+          ResponsiveGrid(
+            minItemWidth: 260,
+            equalHeight: false,
+            children: [
+              for (var i = 0; i < steps.length; i++)
+                _StepCard(index: i, step: steps[i]),
+            ],
+          ),
+          const SectionHeader('其他浏览器'),
+          Text(
+            '在浏览器的分享或菜单中查找「添加到主屏幕」或「添加到桌面」，按提示确认即可。不同浏览器的选项名称和位置可能略有不同。',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: muted,
+              height: 1.6,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StepCard extends StatelessWidget {
+  const _StepCard({required this.index, required this.step});
+
+  final int index;
+  final InstallStep step;
+
+  void _showImage(BuildContext context) => showDialog<void>(
+    context: context,
+    builder: (ctx) => Dialog.fullscreen(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            tooltip: '关闭',
+            icon: const Icon(Icons.close),
+            onPressed: () => Navigator.pop(ctx),
+          ),
+          title: Text(step.title),
+        ),
+        body: InteractiveViewer(
+          minScale: 1,
+          maxScale: 4,
+          child: Center(child: Image.asset(step.image, fit: BoxFit.contain)),
         ),
       ),
     ),
   );
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 14,
+                  backgroundColor: scheme.primaryContainer,
+                  foregroundColor: scheme.onPrimaryContainer,
+                  child: Text('${index + 1}', style: theme.textTheme.labelLarge),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    step.title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              step.detail,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: scheme.onSurfaceVariant,
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 260),
+                child: Semantics(
+                  button: true,
+                  label: '放大第 ${index + 1} 步截图：${step.title}',
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () => _showImage(context),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(step.image, semanticLabel: step.title),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
