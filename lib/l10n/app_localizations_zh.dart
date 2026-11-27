@@ -15,18 +15,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aboutAuthor => '关于作者';
 
   @override
-  String get shareMenuTitle => '分享菜单';
-
-  @override
-  String get copyAction => '拷贝';
-
-  @override
-  String get bookmarkAction => '添加书签';
-
-  @override
-  String get shareIllustration => '分享菜单示意图';
-
-  @override
   String get selectLanguage => '选择语言';
 
   @override
@@ -360,18 +348,6 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get aboutAuthor => '关于作者';
 
   @override
-  String get shareMenuTitle => '分享菜单';
-
-  @override
-  String get copyAction => '拷贝';
-
-  @override
-  String get bookmarkAction => '添加书签';
-
-  @override
-  String get shareIllustration => '分享菜单示意图';
-
-  @override
   String get selectLanguage => '选择语言';
 
   @override
@@ -703,18 +679,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get aboutAuthor => '關於作者';
-
-  @override
-  String get shareMenuTitle => '分享選單';
-
-  @override
-  String get copyAction => '拷貝';
-
-  @override
-  String get bookmarkAction => '加入書籤';
-
-  @override
-  String get shareIllustration => '分享選單示意圖';
 
   @override
   String get selectLanguage => '選擇語言';

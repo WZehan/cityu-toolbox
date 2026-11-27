@@ -15,18 +15,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutAuthor => 'About the author';
 
   @override
-  String get shareMenuTitle => 'Share menu';
-
-  @override
-  String get copyAction => 'Copy';
-
-  @override
-  String get bookmarkAction => 'Add Bookmark';
-
-  @override
-  String get shareIllustration => 'Share menu illustration';
-
-  @override
   String get selectLanguage => 'Language';
 
   @override

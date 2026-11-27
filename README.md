@@ -17,7 +17,7 @@
 
 本项目自有代码使用 [MIT License](LICENSE)。图片及品牌素材的使用范围见 [ASSET_LICENSES.md](ASSET_LICENSES.md)，第三方软件说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
-欢迎提交 Issue 或 Pull Request。请勿提交个人资料、访问令牌或签名密钥。安装指引第二步使用不含个人信息的分享菜单示意图。
+欢迎提交 Issue 或 Pull Request。请勿提交个人资料、访问令牌或签名密钥。安装指引第二步使用维护者提供的无联系人信息截图。
 
 代码结构：`lib/main.dart`（应用入口与路由）、`lib/theme.dart`（Material 3 主题）、`lib/campus_tools.dart`（工具数据）、`lib/home_page.dart`、`lib/testimonial_page.dart`、`lib/ac2_canteen_page.dart`、`lib/library_resources_page.dart`、`lib/install_guide.dart`、`lib/common_widgets.dart`（页面布局组件）。版本号见 `lib/app_info.dart` 与 `pubspec.yaml`。
 

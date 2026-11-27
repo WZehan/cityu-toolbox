@@ -112,30 +112,6 @@ abstract class AppLocalizations {
   /// **'About the author'**
   String get aboutAuthor;
 
-  /// No description provided for @shareMenuTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Share menu'**
-  String get shareMenuTitle;
-
-  /// No description provided for @copyAction.
-  ///
-  /// In en, this message translates to:
-  /// **'Copy'**
-  String get copyAction;
-
-  /// No description provided for @bookmarkAction.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Bookmark'**
-  String get bookmarkAction;
-
-  /// No description provided for @shareIllustration.
-  ///
-  /// In en, this message translates to:
-  /// **'Share menu illustration'**
-  String get shareIllustration;
-
   /// No description provided for @selectLanguage.
   ///
   /// In en, this message translates to:

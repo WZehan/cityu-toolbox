@@ -169,13 +169,17 @@ void main() {
     expect(find.text('iPhone / iPad · Safari'), findsOneWidget);
     expect(find.text('选择「添加到主屏幕」'), findsOneWidget);
     expect(find.text('确认名称，点击「添加」'), findsOneWidget);
-    expect(find.text('分享菜单示意图'), findsOneWidget);
+    expect(find.text('分享菜单示意图'), findsNothing);
     final imageProviders = tester
         .widgetList<Image>(find.byType(Image))
         .map((image) => image.image);
     expect(
       imageProviders.whereType<AssetImage>().map((image) => image.assetName),
       isNot(contains('assets/images/install/step-2.png')),
+    );
+    expect(
+      imageProviders.whereType<AssetImage>().map((image) => image.assetName),
+      contains('assets/images/install/step-2-safe.jpeg'),
     );
     expect(tester.takeException(), isNull);
   });
