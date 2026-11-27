@@ -1,5 +1,11 @@
 {
   "@@locale": "zh_Hans",
+  "sourceCode": "GitHub 开源代码",
+  "aboutAuthor": "关于作者",
+  "shareMenuTitle": "分享菜单",
+  "copyAction": "拷贝",
+  "bookmarkAction": "添加书签",
+  "shareIllustration": "分享菜单示意图",
   "selectLanguage": "选择语言",
   "appName": "城大百宝箱",
   "all": "全部",

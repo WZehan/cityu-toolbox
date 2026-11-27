@@ -1,7 +1,9 @@
 import 'package:cityu_toolbox/campus_tools.dart';
+import 'package:cityu_toolbox/app_info.dart';
 import 'package:cityu_toolbox/localization.dart';
 import 'package:cityu_toolbox/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Future<void> changeLanguage(WidgetTester tester, String label) async {
@@ -33,6 +35,54 @@ Future<void> openPage(WidgetTester tester, String title) async {
 }
 
 void main() {
+  testWidgets(
+    'Footer links open the repository and author website in all languages',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 1000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      const channel = MethodChannel('plugins.flutter.io/url_launcher');
+      final openedUrls = <String>[];
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
+        call,
+      ) async {
+        if (call.method == 'launch') {
+          openedUrls.add((call.arguments as Map)['url'] as String);
+          return true;
+        }
+        return false;
+      });
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          channel,
+          null,
+        ),
+      );
+      await tester.pumpWidget(const CityUToolbox());
+      await tester.pumpAndSettle();
+      for (final language in AppLanguage.values) {
+        await changeLanguage(tester, language.label);
+        final strings = lookupAppLocalizations(language.locale);
+        await tester.ensureVisible(find.text(strings.sourceCode));
+        await tester.tap(find.text(strings.sourceCode));
+        await tester.pumpAndSettle();
+        await tester.ensureVisible(find.text(strings.aboutAuthor));
+        await tester.tap(find.text(strings.aboutAuthor));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+      }
+      expect(openedUrls, [
+        for (var i = 0; i < 3; i++) ...[
+          'https://github.com/WZehan/cityu-toolbox',
+          'https://wangzehan.com/',
+        ],
+      ]);
+      expect(sourceCodeUrl, openedUrls.first);
+      expect(authorUrl, openedUrls.last);
+    },
+  );
+
   test('Public resource booking retains its destination in all languages', () {
     for (final language in AppLanguage.values) {
       final strings = lookupAppLocalizations(language.locale);

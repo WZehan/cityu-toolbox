@@ -1,5 +1,11 @@
 {
   "@@locale": "zh_Hant",
+  "sourceCode": "GitHub 開源程式碼",
+  "aboutAuthor": "關於作者",
+  "shareMenuTitle": "分享選單",
+  "copyAction": "拷貝",
+  "bookmarkAction": "加入書籤",
+  "shareIllustration": "分享選單示意圖",
   "selectLanguage": "選擇語言",
   "appName": "城大百寶箱",
   "all": "全部",

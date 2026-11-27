@@ -58,7 +58,7 @@ void main() {
       diningTools.first.url,
       'https://csd.order.place/home/store/112870?mode=prekiosk',
     );
-    expect(appBuildVersion, '1.0.4+7');
+    expect(appBuildVersion, '1.0.5+8');
   });
 
   test('Tool search matches hidden English keywords and info lines', () {
@@ -169,6 +169,14 @@ void main() {
     expect(find.text('iPhone / iPad · Safari'), findsOneWidget);
     expect(find.text('选择「添加到主屏幕」'), findsOneWidget);
     expect(find.text('确认名称，点击「添加」'), findsOneWidget);
+    expect(find.text('分享菜单示意图'), findsOneWidget);
+    final imageProviders = tester
+        .widgetList<Image>(find.byType(Image))
+        .map((image) => image.image);
+    expect(
+      imageProviders.whereType<AssetImage>().map((image) => image.assetName),
+      isNot(contains('assets/images/install/step-2.png')),
+    );
     expect(tester.takeException(), isNull);
   });
 
@@ -191,7 +199,7 @@ void main() {
       await tester.pumpWidget(const CityUToolbox());
       await tester.pumpAndSettle();
       expect(find.text('AC1 城大食坊'), findsOneWidget);
-      expect(find.textContaining('构建版本 1.0.4+7'), findsOneWidget);
+      expect(find.textContaining('构建版本 1.0.5+8'), findsOneWidget);
       final ac1 = tester.getTopLeft(find.text('AC1 城大食坊'));
       final ac2 = tester.getTopLeft(find.text('AC2 Canteen'));
       if (width == 390) {

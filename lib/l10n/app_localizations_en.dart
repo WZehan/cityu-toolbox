@@ -9,6 +9,24 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get sourceCode => 'GitHub source';
+
+  @override
+  String get aboutAuthor => 'About the author';
+
+  @override
+  String get shareMenuTitle => 'Share menu';
+
+  @override
+  String get copyAction => 'Copy';
+
+  @override
+  String get bookmarkAction => 'Add Bookmark';
+
+  @override
+  String get shareIllustration => 'Share menu illustration';
+
+  @override
   String get selectLanguage => 'Language';
 
   @override

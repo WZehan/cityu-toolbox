@@ -5,6 +5,7 @@ import 'app_info.dart';
 import 'campus_tools.dart';
 import 'common_widgets.dart';
 import 'localization.dart';
+import 'link_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.showInstallGuide = kIsWeb});
@@ -155,6 +156,24 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
           const SizedBox(height: 40),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 12,
+            runSpacing: 4,
+            children: [
+              TextButton.icon(
+                onPressed: () => openExternalLink(context, sourceCodeUrl),
+                icon: const Icon(Icons.code, size: 18),
+                label: Text(l.sourceCode),
+              ),
+              TextButton.icon(
+                onPressed: () => openExternalLink(context, authorUrl),
+                icon: const Icon(Icons.person_outline, size: 18),
+                label: Text(l.aboutAuthor),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
           Text(
             l.homeFooter(appBuildVersion),
             textAlign: TextAlign.center,

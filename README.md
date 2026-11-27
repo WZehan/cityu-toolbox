@@ -2,13 +2,22 @@
 
 面向香港城市大学同学的 Flutter 校园便民工具，界面遵循 Material 3 设计（支持浅色 / 深色模式）。
 
-- 当前构建版本：1.0.4+7。
+- 当前构建版本：1.0.5+8。
 - 点击顶部右侧的语言按钮，在弹出选单中选择简体中文、繁体中文或英语，各功能页面同步切换。
 - 首页：搜索栏 + 分类切换（全部 / 食在城大 / 学在城大），工具以卡片网格展示，手机单列、平板及桌面多列。
 - 食在城大：AC1 / AC3 线上点餐（外部浏览器 / Web 新标签页打开），AC2 七个窗口分「线上点餐」「现场点餐」展示。AC1 使用预点餐入口 `https://csd.order.place/home/store/112870?mode=prekiosk`。
 - 学在城大：图书馆资源（馆藏搜索、八校通、学术资源、往年试题）、公共资源预约、运动场馆预约、在读证明预填表（输入校验、费用参考、英文预览和复制）。
 - 添加到主屏幕指引：仅在 Web 版首页显示，三步 Safari 图文教程，截图可放大。
 - 表单不上传、不持久化个人资料；本工具不提交申请或签发证明。
+- 首页底部提供 GitHub 源码仓库和关于作者的导航链接，支持简体中文、繁体中文和英语。
+
+源码：[WZehan/cityu-toolbox](https://github.com/WZehan/cityu-toolbox) · 关于作者：[Zehan Wang](https://wangzehan.com/)
+
+## 开源许可
+
+本项目自有代码使用 [MIT License](LICENSE)。图片及品牌素材的使用范围见 [ASSET_LICENSES.md](ASSET_LICENSES.md)，第三方软件说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+欢迎提交 Issue 或 Pull Request。请勿提交个人资料、访问令牌或签名密钥。安装指引第二步使用不含个人信息的分享菜单示意图。
 
 代码结构：`lib/main.dart`（应用入口与路由）、`lib/theme.dart`（Material 3 主题）、`lib/campus_tools.dart`（工具数据）、`lib/home_page.dart`、`lib/testimonial_page.dart`、`lib/ac2_canteen_page.dart`、`lib/library_resources_page.dart`、`lib/install_guide.dart`、`lib/common_widgets.dart`（页面布局组件）。版本号见 `lib/app_info.dart` 与 `pubspec.yaml`。
 

@@ -1,5 +1,11 @@
 {
   "@@locale": "en",
+  "sourceCode": "GitHub source",
+  "aboutAuthor": "About the author",
+  "shareMenuTitle": "Share menu",
+  "copyAction": "Copy",
+  "bookmarkAction": "Add Bookmark",
+  "shareIllustration": "Share menu illustration",
   "selectLanguage": "Language",
   "appName": "CityU Toolbox",
   "all": "All",
