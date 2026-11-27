@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'localization.dart';
+
 Future<void> openExternalLink(BuildContext context, String url) async {
   try {
     final opened = await launchUrl(
@@ -14,12 +16,12 @@ Future<void> openExternalLink(BuildContext context, String url) async {
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('暂时无法打开链接'),
-        content: SelectableText('请复制链接，在浏览器中打开：\n$url'),
+        title: Text(ctx.l10n.linkErrorTitle),
+        content: SelectableText(ctx.l10n.linkErrorMessage(url)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('关闭'),
+            child: Text(ctx.l10n.close),
           ),
         ],
       ),

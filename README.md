@@ -2,10 +2,11 @@
 
 面向香港城市大学同学的 Flutter 校园便民工具，界面遵循 Material 3 设计（支持浅色 / 深色模式）。
 
-- 当前构建版本：1.0.3(4)。
+- 当前构建版本：1.0.4+7。
+- 点击顶部右侧的语言按钮，在弹出选单中选择简体中文、繁体中文或英语，各功能页面同步切换。
 - 首页：搜索栏 + 分类切换（全部 / 食在城大 / 学在城大），工具以卡片网格展示，手机单列、平板及桌面多列。
 - 食在城大：AC1 / AC3 线上点餐（外部浏览器 / Web 新标签页打开），AC2 七个窗口分「线上点餐」「现场点餐」展示。AC1 使用预点餐入口 `https://csd.order.place/home/store/112870?mode=prekiosk`。
-- 学在城大：图书馆资源（馆藏搜索、八校通、学术资源、往年试题）、座位预约、运动场馆预约、在读证明预填表（输入校验、费用参考、英文预览和复制）。
+- 学在城大：图书馆资源（馆藏搜索、八校通、学术资源、往年试题）、公共资源预约、运动场馆预约、在读证明预填表（输入校验、费用参考、英文预览和复制）。
 - 添加到主屏幕指引：仅在 Web 版首页显示，三步 Safari 图文教程，截图可放大。
 - 表单不上传、不持久化个人资料；本工具不提交申请或签发证明。
 
@@ -24,7 +25,10 @@ flutter build web --release --no-web-resources-cdn
 python3 scripts/prepare_web.py
 ```
 
-已生成 Web、iOS、Android、macOS、Windows、Linux 平台工程。仅构建和验证 Web；原生平台尚未构建或真机验证。
+已生成 Web、iOS、Android、macOS、Windows、Linux 平台工程。已构建 Web 和 Android ARM64 release APK；原生平台尚未真机验证。
+
+ARM64 APK 构建：`flutter build apk --release --target-platform android-arm64`。
+本地化文本位于 `lib/l10n/*.arb`，修改后运行 `flutter gen-l10n`。
 
 图标原图：`assets/images/toolbox.png`。重新生成：`dart run flutter_launcher_icons`。
 功能数据：`lib/campus_tools.dart`。资料依据用户于 2026-09-10 提供的功能文档；HK$60/份为文档参考费用，实际以学校最新规定为准。

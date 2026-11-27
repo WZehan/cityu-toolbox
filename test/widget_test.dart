@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cityu_toolbox/app_info.dart';
 import 'package:cityu_toolbox/campus_tools.dart';
-import 'package:cityu_toolbox/home_page.dart';
-import 'package:cityu_toolbox/install_guide.dart';
 import 'package:cityu_toolbox/library_resources_page.dart';
 import 'package:cityu_toolbox/main.dart';
 import 'package:cityu_toolbox/testimonial_page.dart';
-import 'package:cityu_toolbox/theme.dart';
 
 void setViewWidth(WidgetTester tester, double width) {
   tester.view.physicalSize = Size(width, 1000);
@@ -61,7 +58,7 @@ void main() {
       diningTools.first.url,
       'https://csd.order.place/home/store/112870?mode=prekiosk',
     );
-    expect(appBuildVersion, '1.0.3(4)');
+    expect(appBuildVersion, '1.0.4+7');
   });
 
   test('Tool search matches hidden English keywords and info lines', () {
@@ -166,15 +163,7 @@ void main() {
     tester,
   ) async {
     setViewWidth(tester, 390);
-    await tester.pumpWidget(
-      MaterialApp(
-        theme: buildAppTheme(Brightness.light),
-        routes: {
-          '/': (_) => const HomePage(showInstallGuide: true),
-          '/install': (_) => const InstallGuidePage(),
-        },
-      ),
-    );
+    await tester.pumpWidget(const CityUToolbox(showInstallGuide: true));
     await tester.pumpAndSettle();
     await openTool(tester, '添加到主屏幕');
     expect(find.text('iPhone / iPad · Safari'), findsOneWidget);
@@ -202,7 +191,7 @@ void main() {
       await tester.pumpWidget(const CityUToolbox());
       await tester.pumpAndSettle();
       expect(find.text('AC1 城大食坊'), findsOneWidget);
-      expect(find.textContaining('构建版本 1.0.3(4)'), findsOneWidget);
+      expect(find.textContaining('构建版本 1.0.4+7'), findsOneWidget);
       final ac1 = tester.getTopLeft(find.text('AC1 城大食坊'));
       final ac2 = tester.getTopLeft(find.text('AC2 Canteen'));
       if (width == 390) {

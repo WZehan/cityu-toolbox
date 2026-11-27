@@ -1,0 +1,151 @@
+{
+  "@@locale": "en",
+  "selectLanguage": "Language",
+  "appName": "CityU Toolbox",
+  "all": "All",
+  "dining": "Dining",
+  "study": "Study",
+  "searchTools": "Search tools",
+  "clear": "Clear",
+  "noTools": "No matching tools found",
+  "more": "More",
+  "addToHomeScreen": "Add to Home Screen",
+  "installSubtitle": "Open from your home screen like an app",
+  "homeFooter": "CityU Toolbox · Build {version}\nAn independent student utility, not an official City University of Hong Kong app",
+  "@homeFooter": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "ac1Title": "AC1 City Express",
+  "ac1Subtitle": "City Express · Order online",
+  "ac2Subtitle": "7 stalls · 4 offer online ordering",
+  "onlineOrdering": "Order online",
+  "onSiteOrdering": "Order at the stall",
+  "ac1Location": "5/F, Bank of China (Hong Kong) Complex",
+  "ac2Location": "3/F, Li Dak Sum Yip Yio Chin Academic Building",
+  "ac3Location": "7/F, Lau Ming Wai Academic Building",
+  "dailyHours": "Mon–Sun 07:30–21:00",
+  "weekdayHours": "Mon–Sat 07:30–21:00",
+  "holidayClosed": "Closed on Sundays and public holidays",
+  "libraryResources": "Library Resources",
+  "librarySubtitle": "Catalogue search, JULAC, databases and past exam papers",
+  "publicResources": "Public Resource Booking",
+  "publicResourcesSubtitle": "Browse and book shared campus resources",
+  "sportsBooking": "Sports Facility Booking",
+  "sportsSubtitle": "Book sports venues and facilities",
+  "testimonial": "Testimonial Pre-fill",
+  "testimonialSubtitle": "Prepare your details, then preview and copy",
+  "searchCatalogue": "Search the catalogue",
+  "catalogueHint": "Title, author, subject or keywords",
+  "search": "Search",
+  "commonResources": "Useful resources",
+  "julacTitle": "JULAC Application",
+  "julacSubtitle": "Apply for inter-library services at eight universities",
+  "academicResources": "Academic Resources",
+  "academicSubtitle": "Browse electronic databases by subject",
+  "pastPapers": "Past Exam Papers",
+  "pastPapersSubtitle": "Find and download past exam papers",
+  "orderNow": "Order now",
+  "selectFood": "Select food",
+  "payByWeight": "Pay by weight",
+  "pickUp": "Collect your food",
+  "queueUp": "Queue up",
+  "chooseFood": "Select food",
+  "settleBill": "Settle the bill",
+  "placeOrder": "Place your order",
+  "collectFood": "Collect your food",
+  "teaHouse": "Tea House",
+  "xibei": "XiBei Mian Guan",
+  "dumplingCity": "Dumpling City Express",
+  "malaRolling": "Mala Rolling",
+  "thePick": "The Pick",
+  "tastyCorner": "Tasty Corner",
+  "studentName": "Student name",
+  "studentNumber": "Student number",
+  "contactPhone": "Daytime contact number",
+  "identityNumber": "HKID / passport number",
+  "programTitle": "Programme title",
+  "department": "Department",
+  "copiesRequired": "Number of copies required",
+  "emailAddress": "Email address",
+  "requiredField": "Please enter {field}",
+  "@requiredField": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "positiveInteger": "Enter a whole number greater than 0",
+  "validEmail": "Enter a valid email address",
+  "validPhone": "Enter a valid contact number",
+  "previewTitle": "Preview your details",
+  "backToEdit": "Back to edit",
+  "copiedDetails": "Copied. Paste into the official application form.",
+  "copyFailed": "Unable to copy. Select and copy the text in the preview.",
+  "copyAll": "Copy all",
+  "clearFormTitle": "Clear all entered details?",
+  "clearFormMessage": "This action cannot be undone.",
+  "cancel": "Cancel",
+  "clearForm": "Clear form",
+  "clearConfirm": "Clear",
+  "programHint": "e.g. MSc Business Information Systems",
+  "formNotice": "Preview and copy your details in English for the official application. This tool does not submit applications or issue testimonials. Your details stay on this page only.",
+  "basicInformation": "Basic information",
+  "feeReference": "Reference fee: HK${amount} / copy / programme",
+  "@feeReference": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "feeDisclaimer": "Subject to the university's latest published fees",
+  "estimatedFee": "Est. HK${amount}",
+  "@estimatedFee": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "optionalInformation": "Optional information",
+  "contactAddress": "Contact address in AIMS",
+  "mediumInstruction": "Medium of instruction",
+  "previewAndCopy": "Preview and copy details",
+  "installIntro": "Open the website below in your browser and add it to your home screen for quick access.",
+  "urlCopied": "Website address copied",
+  "copyUrl": "Copy website address",
+  "otherBrowsers": "Other browsers",
+  "otherBrowsersGuide": "Look for Add to Home Screen or Install app in your browser's share menu or main menu, then follow the prompts. Wording and location vary by browser.",
+  "installStep1Title": "Open the website and tap Share",
+  "installStep1Detail": "Open CityU Toolbox in Safari and tap the Share button.",
+  "installStep2Title": "Choose Add to Home Screen",
+  "installStep2Detail": "Scroll down in the share menu and tap Add to Home Screen.",
+  "installStep3Title": "Confirm the name and tap Add",
+  "installStep3Detail": "Confirm the name, then tap Add. Open the app using the new home screen icon.",
+  "enlargeScreenshot": "Enlarge screenshot for step {step}: {title}",
+  "@enlargeScreenshot": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "close": "Close",
+  "linkErrorTitle": "Unable to open this link",
+  "linkErrorMessage": "Copy this link and open it in your browser:\n{url}",
+  "@linkErrorMessage": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  }
+}

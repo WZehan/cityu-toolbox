@@ -3,26 +3,27 @@ import 'package:flutter/services.dart';
 
 import 'app_info.dart';
 import 'common_widgets.dart';
+import 'localization.dart';
 
 typedef InstallStep = ({String title, String detail, String image});
 
 class InstallGuidePage extends StatelessWidget {
   const InstallGuidePage({super.key});
 
-  static const List<InstallStep> steps = [
+  static List<InstallStep> steps(AppLocalizations l) => [
     (
-      title: '打开网站，点击分享',
-      detail: '使用 Safari 打开城大百宝箱，点击浏览器下方的分享按钮。',
+      title: l.installStep1Title,
+      detail: l.installStep1Detail,
       image: 'assets/images/install/step-1.png',
     ),
     (
-      title: '选择「添加到主屏幕」',
-      detail: '在分享菜单中向下滑动，找到并点击「添加到主屏幕」。',
+      title: l.installStep2Title,
+      detail: l.installStep2Detail,
       image: 'assets/images/install/step-2.png',
     ),
     (
-      title: '确认名称，点击「添加」',
-      detail: '确认名称后点击右上角「添加」，之后即可从桌面图标直接打开。',
+      title: l.installStep3Title,
+      detail: l.installStep3Detail,
       image: 'assets/images/install/step-3.png',
     ),
   ];
@@ -32,19 +33,24 @@ class InstallGuidePage extends StatelessWidget {
     if (!context.mounted) return;
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text('已复制网址')));
+    ).showSnackBar(SnackBar(content: Text(context.l10n.urlCopied)));
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l = context.l10n;
+    final installSteps = steps(l);
     final muted = theme.colorScheme.onSurfaceVariant;
     return Scaffold(
-      appBar: AppBar(title: const Text('添加到主屏幕')),
+      appBar: AppBar(
+        title: Text(l.addToHomeScreen),
+        actions: const [LanguageSwitcher()],
+      ),
       body: PageScroll(
         children: [
           Text(
-            '在手机浏览器中打开以下网址，添加到主屏幕后即可从桌面直接打开。',
+            l.installIntro,
             style: theme.textTheme.bodyLarge?.copyWith(color: muted),
           ),
           const SizedBox(height: 16),
@@ -53,7 +59,7 @@ class InstallGuidePage extends StatelessWidget {
               leading: const Icon(Icons.link),
               title: const SelectableText(siteUrl),
               trailing: IconButton(
-                tooltip: '复制网址',
+                tooltip: l.copyUrl,
                 icon: const Icon(Icons.content_copy_outlined),
                 onPressed: () => _copyUrl(context),
               ),
@@ -64,13 +70,13 @@ class InstallGuidePage extends StatelessWidget {
             minItemWidth: 260,
             equalHeight: false,
             children: [
-              for (var i = 0; i < steps.length; i++)
-                _StepCard(index: i, step: steps[i]),
+              for (var i = 0; i < installSteps.length; i++)
+                _StepCard(index: i, step: installSteps[i]),
             ],
           ),
-          const SectionHeader('其他浏览器'),
+          SectionHeader(l.otherBrowsers),
           Text(
-            '在浏览器的分享或菜单中查找「添加到主屏幕」或「添加到桌面」，按提示确认即可。不同浏览器的选项名称和位置可能略有不同。',
+            l.otherBrowsersGuide,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: muted,
               height: 1.6,
@@ -94,7 +100,7 @@ class _StepCard extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            tooltip: '关闭',
+            tooltip: ctx.l10n.close,
             icon: const Icon(Icons.close),
             onPressed: () => Navigator.pop(ctx),
           ),
@@ -125,7 +131,10 @@ class _StepCard extends StatelessWidget {
                   radius: 14,
                   backgroundColor: scheme.primaryContainer,
                   foregroundColor: scheme.onPrimaryContainer,
-                  child: Text('${index + 1}', style: theme.textTheme.labelLarge),
+                  child: Text(
+                    '${index + 1}',
+                    style: theme.textTheme.labelLarge,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -152,7 +161,7 @@ class _StepCard extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 260),
                 child: Semantics(
                   button: true,
-                  label: '放大第 ${index + 1} 步截图：${step.title}',
+                  label: context.l10n.enlargeScreenshot(index + 1, step.title),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(12),
                     onTap: () => _showImage(context),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'common_widgets.dart';
+import 'localization.dart';
 
 const fieldLabels = [
   'Student Name',
@@ -13,30 +14,31 @@ const fieldLabels = [
   'Total number of testimonial(s) required',
   'Email Address',
 ];
-const fieldChinese = [
-  '学生姓名',
-  '学生编号',
-  '日间联系电话',
-  '香港身份证 / 护照号码',
-  '课程名称',
-  '所属学系',
-  '所需证明份数',
-  '电子邮箱',
+List<String> localizedFieldLabels(AppLocalizations l) => [
+  l.studentName,
+  l.studentNumber,
+  l.contactPhone,
+  l.identityNumber,
+  l.programTitle,
+  l.department,
+  l.copiesRequired,
+  l.emailAddress,
 ];
 const feePerCopy = 60;
 
-String? validateField(int i, String? value) {
+String? validateField(int i, String? value, [AppLocalizations? strings]) {
+  final l = strings ?? defaultStrings;
   final v = value?.trim() ?? '';
-  if (v.isEmpty) return '请填写${fieldChinese[i]}';
+  if (v.isEmpty) return l.requiredField(localizedFieldLabels(l)[i]);
   if (i == 6 &&
       (!RegExp(r'^[0-9]+$').hasMatch(v) || (int.tryParse(v) ?? 0) < 1)) {
-    return '请输入大于 0 的整数';
+    return l.positiveInteger;
   }
   if (i == 7 && !RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(v)) {
-    return '请输入有效的电子邮箱';
+    return l.validEmail;
   }
   if (i == 2 && !RegExp(r'^\+?[0-9 ()-]{6,25}$').hasMatch(v)) {
-    return '请输入有效的联系电话';
+    return l.validPhone;
   }
   return null;
 }
@@ -85,7 +87,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
     await showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('预填资料预览'),
+        title: Text(ctx.l10n.previewTitle),
         content: SizedBox(
           width: 560,
           child: SingleChildScrollView(
@@ -95,7 +97,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('返回修改'),
+            child: Text(ctx.l10n.backToEdit),
           ),
           FilledButton.icon(
             onPressed: () async {
@@ -105,17 +107,17 @@ class _TestimonialPageState extends State<TestimonialPage> {
                 Navigator.pop(ctx);
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('已复制，可粘贴至正式申请表')),
+                  SnackBar(content: Text(context.l10n.copiedDetails)),
                 );
               } catch (_) {
                 if (!ctx.mounted) return;
-                ScaffoldMessenger.of(ctx).showSnackBar(
-                  const SnackBar(content: Text('复制失败，请在预览中手动选择并复制')),
-                );
+                ScaffoldMessenger.of(
+                  ctx,
+                ).showSnackBar(SnackBar(content: Text(ctx.l10n.copyFailed)));
               }
             },
             icon: const Icon(Icons.content_copy_outlined, size: 18),
-            label: const Text('复制全部'),
+            label: Text(ctx.l10n.copyAll),
           ),
         ],
       ),
@@ -126,16 +128,16 @@ class _TestimonialPageState extends State<TestimonialPage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('清空已填写的资料？'),
-        content: const Text('清空后无法恢复。'),
+        title: Text(ctx.l10n.clearFormTitle),
+        content: Text(ctx.l10n.clearFormMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('取消'),
+            child: Text(ctx.l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('清空'),
+            child: Text(ctx.l10n.clearConfirm),
           ),
         ],
       ),
@@ -153,7 +155,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
 
   Widget _field(int i) => TextFormField(
     controller: controllers[i],
-    validator: (v) => validateField(i, v),
+    validator: (v) => validateField(i, v, context.l10n),
     autovalidateMode: AutovalidateMode.onUserInteraction,
     keyboardType: switch (i) {
       2 => TextInputType.phone,
@@ -165,9 +167,11 @@ class _TestimonialPageState extends State<TestimonialPage> {
     autocorrect: false,
     enableSuggestions: false,
     decoration: InputDecoration(
-      labelText: fieldChinese[i],
-      helperText: fieldLabels[i],
-      hintText: i == 4 ? '例如 MSc Business Information System' : null,
+      labelText: localizedFieldLabels(context.l10n)[i],
+      helperText: Localizations.localeOf(context).languageCode == 'en'
+          ? null
+          : fieldLabels[i],
+      hintText: i == 4 ? context.l10n.programHint : null,
     ),
     onChanged: i == 6 ? (_) => setState(() {}) : null,
   );
@@ -175,6 +179,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l = context.l10n;
     final scheme = theme.colorScheme;
     final copies = validateField(6, controllers[6].text) == null
         ? int.parse(controllers[6].text.trim())
@@ -183,14 +188,15 @@ class _TestimonialPageState extends State<TestimonialPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('在读证明预填表'),
+        title: Text(l.testimonial),
         actions: [
           IconButton(
-            tooltip: '清空表单',
+            tooltip: l.clearForm,
             onPressed: clear,
             icon: const Icon(Icons.restart_alt),
           ),
           const SizedBox(width: 4),
+          const LanguageSwitcher(),
         ],
       ),
       body: Form(
@@ -215,7 +221,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      '填写后可预览并复制英文资料，用于正式申请。本工具不会提交申请或生成证明，资料仅保留在当前页面。',
+                      l.formNotice,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: scheme.onSurfaceVariant,
                         height: 1.5,
@@ -225,10 +231,12 @@ class _TestimonialPageState extends State<TestimonialPage> {
                 ],
               ),
             ),
-            const SectionHeader('基本信息'),
+            SectionHeader(l.basicInformation),
             LayoutBuilder(
               builder: (context, c) {
-                final w = c.maxWidth >= 560 ? (c.maxWidth - 16) / 2 : c.maxWidth;
+                final w = c.maxWidth >= 560
+                    ? (c.maxWidth - 16) / 2
+                    : c.maxWidth;
                 return Wrap(
                   spacing: 16,
                   runSpacing: 16,
@@ -255,7 +263,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '费用参考：HK\$$feePerCopy / 份 / 课程',
+                          l.feeReference(feePerCopy),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: onFee,
                             fontWeight: FontWeight.w600,
@@ -263,7 +271,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          '实际以学校最新公布为准',
+                          l.feeDisclaimer,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: onFee,
                           ),
@@ -273,7 +281,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
                   ),
                   if (copies != null)
                     Text(
-                      '预计 HK\$${copies * feePerCopy}',
+                      l.estimatedFee(copies * feePerCopy),
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: onFee,
                         fontWeight: FontWeight.w600,
@@ -282,22 +290,28 @@ class _TestimonialPageState extends State<TestimonialPage> {
                 ],
               ),
             ),
-            const SectionHeader('附加信息（可选）'),
+            SectionHeader(l.optionalInformation),
             Card(
               child: Column(
                 children: [
                   CheckboxListTile(
                     controlAffinity: ListTileControlAffinity.leading,
-                    title: const Text('AIMS 中的联系地址'),
-                    subtitle: const Text('Contact Address in AIMS'),
+                    title: Text(l.contactAddress),
+                    subtitle:
+                        Localizations.localeOf(context).languageCode == 'en'
+                        ? null
+                        : const Text('Contact Address in AIMS'),
                     value: address,
                     onChanged: (v) => setState(() => address = v ?? false),
                   ),
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   CheckboxListTile(
                     controlAffinity: ListTileControlAffinity.leading,
-                    title: const Text('授课语言'),
-                    subtitle: const Text('Medium of Instruction'),
+                    title: Text(l.mediumInstruction),
+                    subtitle:
+                        Localizations.localeOf(context).languageCode == 'en'
+                        ? null
+                        : const Text('Medium of Instruction'),
                     value: medium,
                     onChanged: (v) => setState(() => medium = v ?? false),
                   ),
@@ -308,7 +322,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
             FilledButton.icon(
               onPressed: preview,
               icon: const Icon(Icons.fact_check_outlined),
-              label: const Text('预览并复制资料'),
+              label: Text(l.previewAndCopy),
             ),
           ],
         ),

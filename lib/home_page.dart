@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'app_info.dart';
 import 'campus_tools.dart';
 import 'common_widgets.dart';
+import 'localization.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.showInstallGuide = kIsWeb});
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l = context.l10n;
     final scheme = theme.colorScheme;
     final width = MediaQuery.sizeOf(context).width;
     final wide = width >= 720;
@@ -38,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         if (_filter == 0 || _filter == category.index + 1)
           (
             category,
-            allTools
+            allToolsFor(l)
                 .where((t) => t.category == category && t.matches(_query))
                 .toList(),
           ),
@@ -46,12 +48,12 @@ class _HomePageState extends State<HomePage> {
 
     final searchBar = SearchBar(
       controller: _search,
-      hintText: '搜索工具',
+      hintText: l.searchTools,
       leading: const Icon(Icons.search),
       trailing: [
         if (_query.isNotEmpty)
           IconButton(
-            tooltip: '清除',
+            tooltip: l.clear,
             icon: const Icon(Icons.close),
             onPressed: () {
               _search.clear();
@@ -71,9 +73,9 @@ class _HomePageState extends State<HomePage> {
     final filter = SegmentedButton<int>(
       showSelectedIcon: false,
       segments: [
-        const ButtonSegment(value: 0, label: Text('全部')),
+        ButtonSegment(value: 0, label: Text(l.all)),
         for (final c in ToolCategory.values)
-          ButtonSegment(value: c.index + 1, label: Text(c.label)),
+          ButtonSegment(value: c.index + 1, label: Text(c.labelFor(l))),
       ],
       selected: {_filter},
       onSelectionChanged: (s) => setState(() => _filter = s.first),
@@ -93,10 +95,11 @@ class _HomePageState extends State<HomePage> {
                 height: 32,
               ),
             ),
-            const SizedBox(width: 12),
-            const Text(appName),
+            const SizedBox(width: 8),
+            Flexible(child: Text(l.appName, overflow: TextOverflow.ellipsis)),
           ],
         ),
+        actions: const [LanguageSwitcher()],
       ),
       body: PageScroll(
         children: [
@@ -114,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             filter,
           ],
           for (final (category, tools) in sections) ...[
-            SectionHeader(category.label),
+            SectionHeader(category.labelFor(l)),
             ResponsiveGrid(
               children: [for (final t in tools) ToolCard(tool: t)],
             ),
@@ -131,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '没有找到相关工具',
+                    l.noTools,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: scheme.onSurfaceVariant,
                     ),
@@ -140,12 +143,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           if (widget.showInstallGuide) ...[
-            const SectionHeader('更多'),
+            SectionHeader(l.more),
             Card(
               child: ListTile(
                 leading: const Icon(Icons.add_to_home_screen),
-                title: const Text('添加到主屏幕'),
-                subtitle: const Text('像 App 一样从桌面打开'),
+                title: Text(l.addToHomeScreen),
+                subtitle: Text(l.installSubtitle),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => Navigator.pushNamed(context, '/install'),
               ),
@@ -153,7 +156,7 @@ class _HomePageState extends State<HomePage> {
           ],
           const SizedBox(height: 40),
           Text(
-            '$appName · 构建版本 $appBuildVersion\n学生便民工具，非香港城市大学官方应用',
+            l.homeFooter(appBuildVersion),
             textAlign: TextAlign.center,
             style: theme.textTheme.bodySmall?.copyWith(
               color: scheme.onSurfaceVariant,

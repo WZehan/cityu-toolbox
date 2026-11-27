@@ -1,0 +1,151 @@
+{
+  "@@locale": "zh_Hant",
+  "selectLanguage": "選擇語言",
+  "appName": "城大百寶箱",
+  "all": "全部",
+  "dining": "食在城大",
+  "study": "學在城大",
+  "searchTools": "搜尋工具",
+  "clear": "清除",
+  "noTools": "找不到相關工具",
+  "more": "更多",
+  "addToHomeScreen": "加入主畫面",
+  "installSubtitle": "像 App 一樣從主畫面開啟",
+  "homeFooter": "城大百寶箱 · 構建版本 {version}\n學生便民工具，非香港城市大學官方應用程式",
+  "@homeFooter": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "ac1Title": "AC1 城大食坊",
+  "ac1Subtitle": "City Express · 網上點餐",
+  "ac2Subtitle": "7 個窗口 · 4 個支援網上點餐",
+  "onlineOrdering": "網上點餐",
+  "onSiteOrdering": "現場點餐",
+  "ac1Location": "中銀（香港）綜合樓 5 樓",
+  "ac2Location": "李達三葉耀珍學術樓 3 樓",
+  "ac3Location": "劉鳴煒學術樓 7 樓",
+  "dailyHours": "週一至週日 07:30–21:00",
+  "weekdayHours": "週一至週六 07:30–21:00",
+  "holidayClosed": "週日及公眾假期休息",
+  "libraryResources": "圖書館資源",
+  "librarySubtitle": "館藏搜尋、八校通、學術資料庫與歷屆試題",
+  "publicResources": "公共資源預約",
+  "publicResourcesSubtitle": "網上查看及預約校園公共資源",
+  "sportsBooking": "運動中心場館預約",
+  "sportsSubtitle": "預約運動中心的場地與設施",
+  "testimonial": "在讀證明預填表",
+  "testimonialSubtitle": "整理申請資料，預覽後一鍵複製",
+  "searchCatalogue": "搜尋館藏",
+  "catalogueHint": "書名、作者、主題或關鍵字",
+  "search": "搜尋",
+  "commonResources": "常用資源",
+  "julacTitle": "八校通申請",
+  "julacSubtitle": "申請使用八所大學圖書館的館際服務",
+  "academicResources": "學術資源",
+  "academicSubtitle": "按學科瀏覽圖書館電子資料庫",
+  "pastPapers": "歷屆考試試題下載",
+  "pastPapersSubtitle": "尋找及下載歷屆考試試題",
+  "orderNow": "前往點餐",
+  "selectFood": "挑選菜 Select Food",
+  "payByWeight": "按重量付款 Pay by Weight",
+  "pickUp": "叫號取餐 Food Pick-up",
+  "queueUp": "排隊 Queue Up",
+  "chooseFood": "選菜 Select Food",
+  "settleBill": "付款 Settle the Bill",
+  "placeOrder": "點餐 Place Order",
+  "collectFood": "取餐 Food Pick-up",
+  "teaHouse": "四季茶坊",
+  "xibei": "西北麵館",
+  "dumplingCity": "餃餃陣",
+  "malaRolling": "麻辣滾燙",
+  "thePick": "拾味",
+  "tastyCorner": "開味小店",
+  "studentName": "學生姓名",
+  "studentNumber": "學生編號",
+  "contactPhone": "日間聯絡電話",
+  "identityNumber": "香港身份證 / 護照號碼",
+  "programTitle": "課程名稱",
+  "department": "所屬學系",
+  "copiesRequired": "所需證明份數",
+  "emailAddress": "電郵地址",
+  "requiredField": "請填寫{field}",
+  "@requiredField": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "positiveInteger": "請輸入大於 0 的整數",
+  "validEmail": "請輸入有效的電郵地址",
+  "validPhone": "請輸入有效的聯絡電話",
+  "previewTitle": "預填資料預覽",
+  "backToEdit": "返回修改",
+  "copiedDetails": "已複製，可貼上至正式申請表",
+  "copyFailed": "複製失敗，請在預覽中手動選取並複製",
+  "copyAll": "複製全部",
+  "clearFormTitle": "清空已填寫的資料？",
+  "clearFormMessage": "清空後無法還原。",
+  "cancel": "取消",
+  "clearForm": "清空表格",
+  "clearConfirm": "清空",
+  "programHint": "例如 MSc Business Information System",
+  "formNotice": "填寫後可預覽並複製英文資料，用於正式申請。本工具不會提交申請或產生證明，資料只保留在目前頁面。",
+  "basicInformation": "基本資料",
+  "feeReference": "費用參考：HK${amount} / 份 / 課程",
+  "@feeReference": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "feeDisclaimer": "實際以學校最新公布為準",
+  "estimatedFee": "預計 HK${amount}",
+  "@estimatedFee": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "optionalInformation": "附加資料（可選）",
+  "contactAddress": "AIMS 中的聯絡地址",
+  "mediumInstruction": "授課語言",
+  "previewAndCopy": "預覽並複製資料",
+  "installIntro": "在手機瀏覽器開啟以下網址，加入主畫面後即可從主畫面直接開啟。",
+  "urlCopied": "已複製網址",
+  "copyUrl": "複製網址",
+  "otherBrowsers": "其他瀏覽器",
+  "otherBrowsersGuide": "在瀏覽器的分享或選單中尋找「加入主畫面」或「加入桌面」，按提示確認即可。不同瀏覽器的選項名稱及位置可能略有不同。",
+  "installStep1Title": "開啟網站，點選分享",
+  "installStep1Detail": "使用 Safari 開啟城大百寶箱，點選瀏覽器下方的分享按鈕。",
+  "installStep2Title": "選擇「加入主畫面」",
+  "installStep2Detail": "在分享選單中向下滑動，尋找並點選「加入主畫面」。",
+  "installStep3Title": "確認名稱，點選「加入」",
+  "installStep3Detail": "確認名稱後點選右上角「加入」，之後即可從主畫面圖示直接開啟。",
+  "enlargeScreenshot": "放大第 {step} 步截圖：{title}",
+  "@enlargeScreenshot": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "close": "關閉",
+  "linkErrorTitle": "暫時無法開啟連結",
+  "linkErrorMessage": "請複製連結，在瀏覽器中開啟：\n{url}",
+  "@linkErrorMessage": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  }
+}

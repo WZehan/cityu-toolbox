@@ -1,0 +1,151 @@
+{
+  "@@locale": "zh_Hans",
+  "selectLanguage": "选择语言",
+  "appName": "城大百宝箱",
+  "all": "全部",
+  "dining": "食在城大",
+  "study": "学在城大",
+  "searchTools": "搜索工具",
+  "clear": "清除",
+  "noTools": "没有找到相关工具",
+  "more": "更多",
+  "addToHomeScreen": "添加到主屏幕",
+  "installSubtitle": "像 App 一样从桌面打开",
+  "homeFooter": "城大百宝箱 · 构建版本 {version}\n学生便民工具，非香港城市大学官方应用",
+  "@homeFooter": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "ac1Title": "AC1 城大食坊",
+  "ac1Subtitle": "City Express · 线上点餐",
+  "ac2Subtitle": "7 个窗口 · 4 个支持线上点餐",
+  "onlineOrdering": "线上点餐",
+  "onSiteOrdering": "现场点餐",
+  "ac1Location": "中银（香港）综合楼 5 楼",
+  "ac2Location": "李达三叶耀珍学术楼 3 楼",
+  "ac3Location": "刘鸣炜学术楼 7 楼",
+  "dailyHours": "周一至周日 07:30–21:00",
+  "weekdayHours": "周一至周六 07:30–21:00",
+  "holidayClosed": "周日及公众假期休息",
+  "libraryResources": "图书馆资源",
+  "librarySubtitle": "馆藏搜索、八校通、学术数据库与往年试题",
+  "publicResources": "公共资源预约",
+  "publicResourcesSubtitle": "在线查看并预约校园公共资源",
+  "sportsBooking": "运动中心场馆预约",
+  "sportsSubtitle": "预约运动中心的场地与设施",
+  "testimonial": "在读证明预填表",
+  "testimonialSubtitle": "整理申请资料，预览后一键复制",
+  "searchCatalogue": "搜索馆藏",
+  "catalogueHint": "书名、作者、主题或关键词",
+  "search": "搜索",
+  "commonResources": "常用资源",
+  "julacTitle": "八校通申请",
+  "julacSubtitle": "申请使用八所大学图书馆的馆际服务",
+  "academicResources": "学术资源",
+  "academicSubtitle": "按学科浏览图书馆电子数据库",
+  "pastPapers": "往年考试试题下载",
+  "pastPapersSubtitle": "查找和下载过往考试试题",
+  "orderNow": "去点餐",
+  "selectFood": "挑选菜 Select Food",
+  "payByWeight": "按重量付款 Pay by Weight",
+  "pickUp": "叫号取餐 Food Pick-up",
+  "queueUp": "排队 Queue Up",
+  "chooseFood": "选菜 Select Food",
+  "settleBill": "付款 Settle the Bill",
+  "placeOrder": "点餐 Place Order",
+  "collectFood": "取餐 Food Pick-up",
+  "teaHouse": "四季茶坊",
+  "xibei": "西北麵館",
+  "dumplingCity": "餃餃陣",
+  "malaRolling": "麻辣滾燙",
+  "thePick": "拾味",
+  "tastyCorner": "開味小店",
+  "studentName": "学生姓名",
+  "studentNumber": "学生编号",
+  "contactPhone": "日间联系电话",
+  "identityNumber": "香港身份证 / 护照号码",
+  "programTitle": "课程名称",
+  "department": "所属学系",
+  "copiesRequired": "所需证明份数",
+  "emailAddress": "电子邮箱",
+  "requiredField": "请填写{field}",
+  "@requiredField": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "positiveInteger": "请输入大于 0 的整数",
+  "validEmail": "请输入有效的电子邮箱",
+  "validPhone": "请输入有效的联系电话",
+  "previewTitle": "预填资料预览",
+  "backToEdit": "返回修改",
+  "copiedDetails": "已复制，可粘贴至正式申请表",
+  "copyFailed": "复制失败，请在预览中手动选择并复制",
+  "copyAll": "复制全部",
+  "clearFormTitle": "清空已填写的资料？",
+  "clearFormMessage": "清空后无法恢复。",
+  "cancel": "取消",
+  "clearForm": "清空表单",
+  "clearConfirm": "清空",
+  "programHint": "例如 MSc Business Information System",
+  "formNotice": "填写后可预览并复制英文资料，用于正式申请。本工具不会提交申请或生成证明，资料仅保留在当前页面。",
+  "basicInformation": "基本信息",
+  "feeReference": "费用参考：HK${amount} / 份 / 课程",
+  "@feeReference": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "feeDisclaimer": "实际以学校最新公布为准",
+  "estimatedFee": "预计 HK${amount}",
+  "@estimatedFee": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "optionalInformation": "附加信息（可选）",
+  "contactAddress": "AIMS 中的联系地址",
+  "mediumInstruction": "授课语言",
+  "previewAndCopy": "预览并复制资料",
+  "installIntro": "在手机浏览器中打开以下网址，添加到主屏幕后即可从桌面直接打开。",
+  "urlCopied": "已复制网址",
+  "copyUrl": "复制网址",
+  "otherBrowsers": "其他浏览器",
+  "otherBrowsersGuide": "在浏览器的分享或菜单中查找「添加到主屏幕」或「添加到桌面」，按提示确认即可。不同浏览器的选项名称和位置可能略有不同。",
+  "installStep1Title": "打开网站，点击分享",
+  "installStep1Detail": "使用 Safari 打开城大百宝箱，点击浏览器下方的分享按钮。",
+  "installStep2Title": "选择「添加到主屏幕」",
+  "installStep2Detail": "在分享菜单中向下滑动，找到并点击「添加到主屏幕」。",
+  "installStep3Title": "确认名称，点击「添加」",
+  "installStep3Detail": "确认名称后点击右上角「添加」，之后即可从桌面图标直接打开。",
+  "enlargeScreenshot": "放大第 {step} 步截图：{title}",
+  "@enlargeScreenshot": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "close": "关闭",
+  "linkErrorTitle": "暂时无法打开链接",
+  "linkErrorMessage": "请复制链接，在浏览器中打开：\n{url}",
+  "@linkErrorMessage": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'link_launcher.dart';
+import 'localization.dart';
 
 enum ToolCategory {
-  dining('食在城大'),
-  study('学在城大');
+  dining,
+  study;
 
-  const ToolCategory(this.label);
-  final String label;
+  String labelFor(AppLocalizations l) => switch (this) {
+    dining => l.dining,
+    study => l.study,
+  };
 }
 
 class ToolInfo {
@@ -61,40 +64,42 @@ class CampusTool {
   }
 }
 
-const diningTools = [
+List<CampusTool> get diningTools => diningToolsFor(defaultStrings);
+
+List<CampusTool> diningToolsFor(AppLocalizations l) => [
   CampusTool(
-    title: 'AC1 城大食坊',
-    subtitle: 'City Express · 线上点餐',
+    title: l.ac1Title,
+    subtitle: l.ac1Subtitle,
     icon: Icons.ramen_dining_outlined,
     category: ToolCategory.dining,
     info: [
-      ToolInfo(Icons.place_outlined, '中银（香港）综合楼 5 楼'),
-      ToolInfo(Icons.schedule_outlined, '周一至周日 07:30–21:00'),
+      ToolInfo(Icons.place_outlined, l.ac1Location),
+      ToolInfo(Icons.schedule_outlined, l.dailyHours),
     ],
     keywords: 'canteen AC1',
     url: 'https://csd.order.place/home/store/112870?mode=prekiosk',
   ),
   CampusTool(
     title: 'AC2 Canteen',
-    subtitle: '7 个窗口 · 4 个支持线上点餐',
+    subtitle: l.ac2Subtitle,
     icon: Icons.rice_bowl_outlined,
     category: ToolCategory.dining,
     info: [
-      ToolInfo(Icons.place_outlined, '李达三叶耀珍学术楼 3 楼'),
-      ToolInfo(Icons.schedule_outlined, '周一至周日 07:30–21:00'),
+      ToolInfo(Icons.place_outlined, l.ac2Location),
+      ToolInfo(Icons.schedule_outlined, l.dailyHours),
     ],
     keywords: 'canteen AC2 四季茶坊 Euro Gourmet 西北麵館 餃餃陣 麻辣滾燙 拾味 開味小店',
     route: '/ac2',
   ),
   CampusTool(
     title: 'AC3 Bistro',
-    subtitle: '线上点餐',
+    subtitle: l.onlineOrdering,
     icon: Icons.restaurant_outlined,
     category: ToolCategory.dining,
     info: [
-      ToolInfo(Icons.place_outlined, '刘鸣炜学术楼 7 楼'),
-      ToolInfo(Icons.schedule_outlined, '周一至周六 07:30–21:00'),
-      ToolInfo(Icons.event_busy_outlined, '周日及公众假期休息'),
+      ToolInfo(Icons.place_outlined, l.ac3Location),
+      ToolInfo(Icons.schedule_outlined, l.weekdayHours),
+      ToolInfo(Icons.event_busy_outlined, l.holidayClosed),
     ],
     keywords: 'canteen AC3',
     url:
@@ -102,34 +107,37 @@ const diningTools = [
   ),
 ];
 
-const studyTools = [
+List<CampusTool> get studyTools => studyToolsFor(defaultStrings);
+
+List<CampusTool> studyToolsFor(AppLocalizations l) => [
   CampusTool(
-    title: '图书馆资源',
-    subtitle: '馆藏搜索、八校通、学术数据库与往年试题',
+    title: l.libraryResources,
+    subtitle: l.librarySubtitle,
     icon: Icons.local_library_outlined,
     category: ToolCategory.study,
     keywords: 'Library Resources exam paper',
     route: '/library',
   ),
   CampusTool(
-    title: '图书馆座位预约',
-    subtitle: '在线查看并预约图书馆座位',
+    title: l.publicResources,
+    subtitle: l.publicResourcesSubtitle,
     icon: Icons.event_seat_outlined,
     category: ToolCategory.study,
-    keywords: 'Library Seat Booking',
+    keywords:
+        'Public Resource Booking Library Seat Booking 公共资源预约 公共資源預約 图书馆座位 圖書館座位',
     url: 'https://booking.cityu.edu.hk/app/booking-types',
   ),
   CampusTool(
-    title: '运动中心场馆预约',
-    subtitle: '预约运动中心的场地与设施',
+    title: l.sportsBooking,
+    subtitle: l.sportsSubtitle,
     icon: Icons.sports_basketball_outlined,
     category: ToolCategory.study,
     keywords: 'Sports Facilities Booking',
     url: 'https://sportsbooking.cityu.edu.hk/',
   ),
   CampusTool(
-    title: '在读证明预填表',
-    subtitle: '整理申请资料，预览后一键复制',
+    title: l.testimonial,
+    subtitle: l.testimonialSubtitle,
     icon: Icons.description_outlined,
     category: ToolCategory.study,
     keywords: 'Student testimonial',
@@ -137,4 +145,7 @@ const studyTools = [
   ),
 ];
 
-const allTools = [...diningTools, ...studyTools];
+List<CampusTool> allToolsFor(AppLocalizations l) => [
+  ...diningToolsFor(l),
+  ...studyToolsFor(l),
+];

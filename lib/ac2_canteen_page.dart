@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'common_widgets.dart';
 import 'link_launcher.dart';
+import 'localization.dart';
 
-const _onlineStalls = <_Ac2Stall>[
+List<_Ac2Stall> _onlineStalls(AppLocalizations l) => [
   _Ac2Stall(
-    name: '四季茶坊',
+    name: l.teaHouse,
     english: 'Tea House',
     logo: 'assets/images/ac2/tea_house_transparent.png',
     orderUrl: 'https://csd.order.place/home/store/612882',
@@ -17,37 +18,37 @@ const _onlineStalls = <_Ac2Stall>[
     orderUrl: 'https://csd.order.place/home/store/712882?_aigens_source=scan',
   ),
   _Ac2Stall(
-    name: '西北麵館',
+    name: l.xibei,
     english: 'XiBei Mian Guan',
     logo: 'assets/images/ac2/xibei_noodle_transparent.png',
     orderUrl:
         'https://csd.order.place/home/store/312882?_aigens_source=scan&catMode=false&mode=dinein',
   ),
   _Ac2Stall(
-    name: '餃餃陣',
+    name: l.dumplingCity,
     english: 'Dumpling City Express',
     logo: 'assets/images/ac2/dumpling_city_express_transparent.png',
     orderUrl: 'https://csd.order.place/home/store/212882?_aigens_source=scan',
   ),
 ];
 
-const _offlineStalls = <_Ac2Stall>[
+List<_Ac2Stall> _offlineStalls(AppLocalizations l) => [
   _Ac2Stall(
-    name: '麻辣滾燙',
+    name: l.malaRolling,
     logo: 'assets/images/ac2/mala_rolling_transparent.png',
-    steps: ['挑选菜 Select Food', '按重量付款 Pay by Weight', '叫号取餐 Food Pick-up'],
+    steps: [l.selectFood, l.payByWeight, l.pickUp],
   ),
   _Ac2Stall(
-    name: '拾味',
+    name: l.thePick,
     english: 'The Pick',
     logo: 'assets/images/ac2/the_pick_transparent.png',
-    steps: ['排队 Queue Up', '选菜 Select Food', '付款 Settle the Bill'],
+    steps: [l.queueUp, l.chooseFood, l.settleBill],
   ),
   _Ac2Stall(
-    name: '開味小店',
+    name: l.tastyCorner,
     english: 'Tasty Corner',
     logo: 'assets/images/ac2/kai_wei_shop_transparent.png',
-    steps: ['点餐 Place Order', '付款 Settle the Bill', '取餐 Food Pick-up'],
+    steps: [l.placeOrder, l.settleBill, l.collectFood],
   ),
 ];
 
@@ -56,23 +57,30 @@ class Ac2CanteenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('AC2 Canteen')),
+    appBar: AppBar(
+      title: const Text('AC2 Canteen'),
+      actions: const [LanguageSwitcher()],
+    ),
     body: PageScroll(
       children: [
-        const InfoLine(Icons.place_outlined, '李达三叶耀珍学术楼 3 楼'),
+        InfoLine(Icons.place_outlined, context.l10n.ac2Location),
         const SizedBox(height: 8),
-        const InfoLine(Icons.schedule_outlined, '周一至周日 07:30–21:00'),
-        const SectionHeader('线上点餐'),
+        InfoLine(Icons.schedule_outlined, context.l10n.dailyHours),
+        SectionHeader(context.l10n.onlineOrdering),
         ResponsiveGrid(
           minItemWidth: 160,
           maxColumns: 4,
-          children: [for (final s in _onlineStalls) _StallCard(stall: s)],
+          children: [
+            for (final s in _onlineStalls(context.l10n)) _StallCard(stall: s),
+          ],
         ),
-        const SectionHeader('现场点餐'),
+        SectionHeader(context.l10n.onSiteOrdering),
         ResponsiveGrid(
           minItemWidth: 160,
           maxColumns: 4,
-          children: [for (final s in _offlineStalls) _StallCard(stall: s)],
+          children: [
+            for (final s in _offlineStalls(context.l10n)) _StallCard(stall: s),
+          ],
         ),
       ],
     ),
@@ -117,7 +125,8 @@ class _StallCard extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                if (stall.english case final english?)
+                if (stall.english case final english?
+                    when english != stall.name)
                   Text(
                     english,
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -134,12 +143,12 @@ class _StallCard extends StatelessWidget {
             child: switch (stall.orderUrl) {
               final url? => FilledButton.tonal(
                 onPressed: () => openExternalLink(context, url),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.open_in_new, size: 18),
-                    SizedBox(width: 8),
-                    Text('去点餐'),
+                    const Icon(Icons.open_in_new, size: 18),
+                    const SizedBox(width: 8),
+                    Flexible(child: Text(context.l10n.orderNow)),
                   ],
                 ),
               ),
