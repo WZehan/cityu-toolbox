@@ -71,15 +71,10 @@ class _HomePageState extends State<HomePage> {
       onChanged: (v) => setState(() => _query = v),
     );
 
-    final filter = SegmentedButton<int>(
-      showSelectedIcon: false,
-      segments: [
-        ButtonSegment(value: 0, label: Text(l.all)),
-        for (final c in ToolCategory.values)
-          ButtonSegment(value: c.index + 1, label: Text(c.labelFor(l))),
-      ],
-      selected: {_filter},
-      onSelectionChanged: (s) => setState(() => _filter = s.first),
+    final filter = _CategoryFilter(
+      labels: [l.all, for (final c in ToolCategory.values) c.labelFor(l)],
+      selected: _filter,
+      onSelected: (value) => setState(() => _filter = value),
     );
 
     return Scaffold(
@@ -107,8 +102,8 @@ class _HomePageState extends State<HomePage> {
           if (wide)
             Row(
               children: [
-                filter,
-                const Spacer(),
+                Expanded(child: filter),
+                const SizedBox(width: 24),
                 SizedBox(width: 320, child: searchBar),
               ],
             )
@@ -189,6 +184,72 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+/// Normal text layout lets segment widths follow font metric updates.
+class _CategoryFilter extends StatelessWidget {
+  const _CategoryFilter({
+    required this.labels,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final List<String> labels;
+  final int selected;
+  final ValueChanged<int> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Material(
+        color: scheme.surface,
+        shape: StadiumBorder(side: BorderSide(color: scheme.outline)),
+        clipBehavior: Clip.antiAlias,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (var i = 0; i < labels.length; i++)
+              Semantics(
+                button: true,
+                selected: i == selected,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    color: i == selected ? scheme.secondaryContainer : null,
+                    border: i == 0
+                        ? null
+                        : Border(left: BorderSide(color: scheme.outline)),
+                  ),
+                  child: InkWell(
+                    onTap: () => onSelected(i),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: 48),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        child: Text(
+                          labels[i],
+                          softWrap: false,
+                          style: theme.textTheme.labelLarge?.copyWith(
+                            color: i == selected
+                                ? scheme.onSecondaryContainer
+                                : scheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class ToolCard extends StatelessWidget {
   const ToolCard({super.key, required this.tool});
 
@@ -221,32 +282,11 @@ class ToolCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            tool.title,
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        if (tool.notice case final notice?)
-                          Tooltip(
-                            message: notice,
-                            triggerMode: TooltipTriggerMode.manual,
-                            waitDuration: const Duration(milliseconds: 400),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 6),
-                              child: Icon(
-                                Icons.info_outline,
-                                size: 18,
-                                color: scheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ),
-                      ],
+                    Text(
+                      tool.title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(height: 2),
                     Text(

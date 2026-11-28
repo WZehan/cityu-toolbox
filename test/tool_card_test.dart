@@ -2,8 +2,8 @@ import 'package:cityu_toolbox/campus_tools.dart';
 import 'package:cityu_toolbox/common_widgets.dart';
 import 'package:cityu_toolbox/home_page.dart';
 import 'package:cityu_toolbox/localization.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget toolGrid(List<CampusTool> tools, {double textScale = 1}) => MaterialApp(
@@ -70,29 +70,46 @@ void main() {
   }
 
   testWidgets(
-    'Demo notice appears only when hovering over the title info icon',
+    'Demo notice is visible below the description and the card opens its link',
     (tester) async {
-      final tool = studyTools.last;
-      await tester.pumpWidget(toolGrid([tool]));
-      expect(find.text(tool.notice!), findsNothing);
-      final icon = find.byIcon(Icons.info_outline);
-      final title = find.text(tool.title);
-      expect(
-        tester.getRect(icon).left,
-        greaterThan(tester.getRect(title).right),
+      tester.view.physicalSize = const Size(390, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      const channel = MethodChannel('plugins.flutter.io/url_launcher');
+      final openedUrls = <String>[];
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
+        call,
+      ) async {
+        if (call.method == 'launch') {
+          openedUrls.add((call.arguments as Map)['url'] as String);
+          return true;
+        }
+        return false;
+      });
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          channel,
+          null,
+        ),
       );
 
-      final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
-      await mouse.addPointer(location: Offset.zero);
-      addTearDown(mouse.removePointer);
-      await mouse.moveTo(tester.getCenter(icon));
-      await tester.pump(const Duration(milliseconds: 600));
-      await tester.pumpAndSettle();
-      expect(find.text(tool.notice!), findsOneWidget);
+      final tool = studyTools.last;
+      await tester.pumpWidget(toolGrid([tool]));
+      final notice = find.text(tool.info.single.text);
+      expect(notice, findsOneWidget);
+      expect(find.byIcon(Icons.info_outline), findsOneWidget);
+      expect(find.byType(Tooltip), findsNothing);
+      expect(
+        tester.getTopLeft(notice).dy,
+        greaterThan(tester.getBottomLeft(find.text(tool.subtitle)).dy),
+      );
+      expect(openedUrls, isEmpty);
 
-      await mouse.moveTo(const Offset(1, 500));
+      await tester.tap(find.text(tool.title));
       await tester.pumpAndSettle();
-      expect(find.text(tool.notice!), findsNothing);
+      expect(openedUrls, [tool.url]);
+      expect(tester.takeException(), isNull);
     },
   );
 }
