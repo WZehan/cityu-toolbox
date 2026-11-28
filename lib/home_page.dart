@@ -120,6 +120,7 @@ class _HomePageState extends State<HomePage> {
           for (final (category, tools) in sections) ...[
             SectionHeader(category.labelFor(l)),
             ResponsiveGrid(
+              equalHeight: false,
               children: [for (final t in tools) ToolCard(tool: t)],
             ),
           ],
@@ -217,13 +218,35 @@ class ToolCard extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      tool.title,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            tool.title,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        if (tool.notice case final notice?)
+                          Tooltip(
+                            message: notice,
+                            triggerMode: TooltipTriggerMode.manual,
+                            waitDuration: const Duration(milliseconds: 400),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 6),
+                              child: Icon(
+                                Icons.info_outline,
+                                size: 18,
+                                color: scheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                     const SizedBox(height: 2),
                     Text(

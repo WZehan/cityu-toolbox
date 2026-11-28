@@ -298,6 +298,24 @@ abstract class AppLocalizations {
   /// **'Prepare your details, then preview and copy'**
   String get testimonialSubtitle;
 
+  /// No description provided for @panoramaNavigation.
+  ///
+  /// In en, this message translates to:
+  /// **'CityU Panorama Navigation'**
+  String get panoramaNavigation;
+
+  /// No description provided for @panoramaNavigationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore campus with panoramic views'**
+  String get panoramaNavigationSubtitle;
+
+  /// No description provided for @panoramaNavigationDemoNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This project is still in the Demo stage, for preview only.'**
+  String get panoramaNavigationDemoNotice;
+
   /// No description provided for @searchCatalogue.
   ///
   /// In en, this message translates to:

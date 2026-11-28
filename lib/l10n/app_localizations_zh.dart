@@ -110,6 +110,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get testimonialSubtitle => '整理申请资料，预览后一键复制';
 
   @override
+  String get panoramaNavigation => 'CityU 全景导航';
+
+  @override
+  String get panoramaNavigationSubtitle => '通过全景视角探索城大校园';
+
+  @override
+  String get panoramaNavigationDemoNotice => '该项目仍处于 Demo 阶段，仅供体验';
+
+  @override
   String get searchCatalogue => '搜索馆藏';
 
   @override
@@ -443,6 +452,15 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get testimonialSubtitle => '整理申请资料，预览后一键复制';
 
   @override
+  String get panoramaNavigation => 'CityU 全景导航';
+
+  @override
+  String get panoramaNavigationSubtitle => '通过全景视角探索城大校园';
+
+  @override
+  String get panoramaNavigationDemoNotice => '该项目仍处于 Demo 阶段，仅供体验';
+
+  @override
   String get searchCatalogue => '搜索馆藏';
 
   @override
@@ -774,6 +792,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get testimonialSubtitle => '整理申請資料，預覽後一鍵複製';
+
+  @override
+  String get panoramaNavigation => 'CityU 全景導航';
+
+  @override
+  String get panoramaNavigationSubtitle => '透過全景視角探索城大校園';
+
+  @override
+  String get panoramaNavigationDemoNotice => '該項目仍處於 Demo 階段，僅供體驗';
 
   @override
   String get searchCatalogue => '搜尋館藏';

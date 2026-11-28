@@ -26,6 +26,7 @@ class CampusTool {
     required this.icon,
     required this.category,
     this.info = const [],
+    this.notice,
     this.keywords = '',
     this.url,
     this.route,
@@ -36,6 +37,7 @@ class CampusTool {
   final IconData icon;
   final ToolCategory category;
   final List<ToolInfo> info;
+  final String? notice;
 
   /// Extra search terms that are not displayed (e.g. English names).
   final String keywords;
@@ -51,6 +53,7 @@ class CampusTool {
       title,
       subtitle,
       keywords,
+      ?notice,
       for (final i in info) i.text,
     ].join(' ').toLowerCase().contains(q);
   }
@@ -142,6 +145,15 @@ List<CampusTool> studyToolsFor(AppLocalizations l) => [
     category: ToolCategory.study,
     keywords: 'Student testimonial',
     route: '/testimonial',
+  ),
+  CampusTool(
+    title: l.panoramaNavigation,
+    subtitle: l.panoramaNavigationSubtitle,
+    icon: Icons.panorama_photosphere_outlined,
+    category: ToolCategory.study,
+    notice: l.panoramaNavigationDemoNotice,
+    keywords: 'CityU panorama navigation 全景导航 全景導航 校园地图 校園地圖',
+    url: 'https://cityu-panorama-navigation.wangzehan.com/',
   ),
 ];
 

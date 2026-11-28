@@ -58,7 +58,7 @@ void main() {
       diningTools.first.url,
       'https://csd.order.place/home/store/112870?mode=prekiosk',
     );
-    expect(appBuildVersion, '1.0.5+8');
+    expect(appBuildVersion, '1.0.6+9');
   });
 
   test('Tool search matches hidden English keywords and info lines', () {
@@ -203,7 +203,7 @@ void main() {
       await tester.pumpWidget(const CityUToolbox());
       await tester.pumpAndSettle();
       expect(find.text('AC1 城大食坊'), findsOneWidget);
-      expect(find.textContaining('构建版本 1.0.5+8'), findsOneWidget);
+      expect(find.textContaining('构建版本 1.0.6+9'), findsOneWidget);
       final ac1 = tester.getTopLeft(find.text('AC1 城大食坊'));
       final ac2 = tester.getTopLeft(find.text('AC2 Canteen'));
       if (width == 390) {

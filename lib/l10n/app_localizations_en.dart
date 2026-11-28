@@ -113,6 +113,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Prepare your details, then preview and copy';
 
   @override
+  String get panoramaNavigation => 'CityU Panorama Navigation';
+
+  @override
+  String get panoramaNavigationSubtitle =>
+      'Explore campus with panoramic views';
+
+  @override
+  String get panoramaNavigationDemoNotice =>
+      'This project is still in the Demo stage, for preview only.';
+
+  @override
   String get searchCatalogue => 'Search the catalogue';
 
   @override
